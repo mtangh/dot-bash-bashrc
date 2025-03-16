@@ -60,9 +60,9 @@ then
 fi
 
 # Source bash.bashrc or bashrc on this same path.
-[ -f "${BASH_SOURCE%/*}/bash.bashrc" ] &&
-   . "${BASH_SOURCE%/*}/bash.bashrc" ||
-[ -f "${BASH_SOURCE%/*}/bashrc" ] &&
-   . "${BASH_SOURCE%/*}/bashrc" || :
+{ [ -f "${BASH_SOURCE%/*}/bash.bashrc" ] &&
+     . "${BASH_SOURCE%/*}/bash.bashrc"; } ||
+{ [ -f "${BASH_SOURCE%/*}/bashrc" ] &&
+     . "${BASH_SOURCE%/*}/bashrc"; } || :
 
 # EoF
