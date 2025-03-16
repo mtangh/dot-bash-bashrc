@@ -26,6 +26,19 @@ then
   export MBOX
 fi
 
+# Env: DEAD
+if [ -z "${DEAD:-}" ]
+then
+  [ -z "${DEAD:-}" -a \
+    -d "${XDG_DATA_HOME:-$HOME/.local/share}" ] &&
+  DEAD="${XDG_DATA_HOME:-$HOME/.local/share}/dead.letter" || :
+  [ -z "${DEAD:-}" -a \
+    -d "${HOME}/.local" ] &&
+  DEAD="${HOME}/.local/dead.letter" || :
+  [ -z "${DEAD:-}" ] ||
+  export DEAD
+fi
+
 # Env: MAIL
 if [ -z "${MAIL:-}" ]
 then
@@ -43,6 +56,31 @@ then
   export MAIL
   # Cleanup
   unset mailspooldir
+fi
+
+# Env: MAILPATH
+if [ -z "${MAILPATH:-}" ]
+then
+  MAILPATH=""
+  if [ -n "${MAIL}" ]
+  then
+    MAILPATH="${MAILPATH:+$MAILPATH:}"
+    MAILPATH="${MAILPATH}${MAIL}"
+    MAILPATH="${MAILPATH}?Your have mail."
+  fi
+  if [ -n "${DEAD}" ]
+  then
+    MAILPATH="${MAILPATH:+$MAILPATH:}"
+    MAILPATH="${MAILPATH}${DEAD}"
+    MAILPATH="${MAILPATH}?Delivery errors detected,"
+    MAILPATH="${MAILPATH} Check file '\$_'."
+  fi
+fi
+
+# Env: Email check interval
+if [ -z "${MAILCHECK:}" ]
+then
+  MAILCHECK=60
 fi
 
 # End

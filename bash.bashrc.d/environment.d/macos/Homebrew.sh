@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/macos/Homebrew.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/Homebrew.sh
 
 # Homebrew prefix
 [ -x "$(type -P brew)" ] &&

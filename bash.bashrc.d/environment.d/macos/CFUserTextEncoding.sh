@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/macos/CFUserTextEncoding.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/CFUserTextEncoding.sh
 [[ "${ostype:-OS}" = macos* ]] || return 0
 
 # Set bash.bashrc dir if undefined.

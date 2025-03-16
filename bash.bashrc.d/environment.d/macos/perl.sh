@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/macos/perl.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/perl.sh
 
 PERL_BADLANG=0
 export PERL_BADLANG

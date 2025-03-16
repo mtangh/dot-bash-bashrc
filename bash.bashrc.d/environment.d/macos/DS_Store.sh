@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/macos/DS_Store.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/DS_Store.sh
 [[ "${ostype:-OS}" = macos* ]] || return 0
 
 # Set bash.bashrc dir if undefined.

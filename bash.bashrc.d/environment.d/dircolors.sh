@@ -1,11 +1,10 @@
-# ${bashbashrc_dir}/environment.d/${ostype}/dir_colorls_config.sh
-# shellcheck disable=SC2139
+# ${bashbashrc_dir}/environment.d/dircolors.sh
 
 # Skip all for non-interactive shells.
 [[ "$-" = *i* ]] && [ -t 0 ] || return 0
 
 ##
-## color-ls For Linux
+## LS_COLORS
 ##
 
 dir_colors=""
@@ -31,28 +30,18 @@ then
   unset color_sz
 fi &>/dev/null || :
 
-# ls options
-ls_options="-Fq"
-[ ${UID} -eq 0 ] &&
-ls_options="-A ${ls_options}" || :
+# Color settings are disabled?
+cat "${dir_colors:-X}" 2>/dev/null |
+grep -Ei "^[[:space:]]*COLOR[[:space:]]+no(ne$|$)" &>/dev/null &&
+dir_colors="" || :
 
-# LS_COLORS setting
-if [ ! -f "${dir_colors:-X}" -o ! -r "${dir_colors:-X}" ] ||
-   (grep -Ei "^COLOR.*none" "${dir_colors}" &>/dev/null)
-then
-  # LS_COLORS No configuration file or LS_COLORS is Off
-  alias ls="ls ${ls_options}"
-else
-  # Build the DIR_COLORS setting and
-  # set it in the LS_COLORS environment variable.
-  eval "$(dircolors --sh "${dir_colors}")" &&
-  [ -n "${LS_COLORS:-}" ] &&
-  alias ls="ls ${ls_options} --color=tty" || :
-fi &>/dev/null || :
-unset ls_options dir_colors
+# Build the DIR_COLORS setting and
+# set it in the LS_COLORS environment variable.
+[ -f "${dir_colors:-X}" -a -r "${dir_colors:-X}" ] &&
+eval "$(dircolors --sh "${dir_colors}")" || :
 
-# ls aliases
-alias lll="ls -l --author --full-time --time-style='+%Y-%m-%d %H:%M:%S'"
+# Unset shell variables.
+unset dir_colors
 
 # End
 return 0

@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/${ostype}/colorls.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/lscolors.sh
 
 # Skip all for non-interactive shells.
 [[ "$-" = *i* ]] && [ -t 0 ] || return 0

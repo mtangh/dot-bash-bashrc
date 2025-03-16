@@ -1,4 +1,4 @@
-# ${bashbashrc_dir}/environment.d/macos/python.sh
+# ${bashbashrc_dir}/environment.d/${ostype}/python.sh
 
 # Python version
 PYTHON_VER=2.7
