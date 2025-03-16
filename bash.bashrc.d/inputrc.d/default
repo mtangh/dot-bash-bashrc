@@ -365,7 +365,7 @@ set colored-stats on
 
 # Reqion
 set enable-active-region on
-set active-region-start-color \e[01;32
+set active-region-start-color \e[1;33;44m
 set active-region-end-color \e[0m
 
 # History
