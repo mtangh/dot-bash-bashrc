@@ -15,7 +15,7 @@ then
   do
     [ -f "${profile_sh}" -a \
       -x "${profile_sh}" ] && {
-    set +u; . "${profile_sh}"; set -x; } || :
+    set +u; . "${profile_sh}"; set -u; } || :
   done
   unset profile_sh
 fi
@@ -26,7 +26,7 @@ then
   for completesh in "${homebrewprefix}/etc/bash_completion.d"/*.sh
   do
     [ -f "${completesh}" ] && {
-    set +u; . "${completesh}"; set -x; } || :
+    set +u; . "${completesh}"; set -u; } || :
   done
   unset completesh
 fi
