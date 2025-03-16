@@ -343,8 +343,9 @@
 
 # Mode and Key Sequence
 set editing-mode emacs
-set keyseq emacs
-set show-mode-in-prompt on
+set emacs-mode-string @
+set keymap emacs
+set show-mode-in-prompt off
 
 # Input
 set expand-tilde on
@@ -370,7 +371,7 @@ set active-region-end-color \e[0m
 # History
 set history-size 384
 set history-preserve-point on
-set mark-modified-lines on
+set mark-modified-lines off
 set revert-all-at-newline on
 
 # Completions

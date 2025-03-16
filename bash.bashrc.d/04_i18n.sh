@@ -21,7 +21,7 @@ done &>/dev/null || :
 unset i18nfile
 
 # Fallback
-if [ -z "${LANG}" ]
+if [ -z "${LANG:-}" ]
 then
   if [[ "${ostype}" = linux* ]]
   then

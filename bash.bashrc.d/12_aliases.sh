@@ -6,7 +6,6 @@
 # Aliasses
 
 ## cd
-alias --='cd -'
 alias ..='cd ..'
 alias cdp='cd -P'
 
