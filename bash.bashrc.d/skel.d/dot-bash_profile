@@ -1,0 +1,18 @@
+# ${HOME}/.bash_profile
+# User local .bash_profile file for bash(1) shells.
+
+# Source a common .profile for sh or compatible shells.
+[ -f "${HOME}/.profile" ] &&
+   . "${HOME}/.profile" || :
+
+# Source bash.profile if it exists
+[ -d "${XDG_CONFIG_HOME:=$HOME/.config}" ] &&
+[ -f "${XDG_CONFIG_HOME}/bash.profile" ] &&
+   . "${XDG_CONFIG_HOME}/bash.profile" || :
+
+# Source the user's .bashrc
+[ -r "${HOME}/.bashrc" ] &&
+   . "${HOME}/.bashrc" || :
+
+
+# End

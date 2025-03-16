@@ -1,0 +1,1059 @@
+# ${bashbashrc_dir}/inputrc.d/default
+# System-wide inputrc file for readline library.
+
+##
+# Readline Options
+##
+
+# READLINE VARIABLES
+#
+# Readline has variables that can be used to further customize its
+# behavior.  A variable may be set in the inputrc file with a
+# statement of the form
+#
+#               set variable-name value
+#
+# or using the bind builtin command (see SHELL BUILTIN COMMANDS below).
+#
+# Except where noted, readline variables can take the values On or Off
+# (without regard to case).  Unrecognized variable names are ignored.
+# When a variable value is read, empty or null values, "on"
+# (case-insensitive), and "1" are equivalent to On.  All other values
+# are equivalent to Off.  The variables and their default values are:
+#
+#   active-region-start-color
+#     A string variable that controls the text color and background
+#     when displaying the text in the active region (see the
+#     description of enable-active-region below).  This string must
+#     not take up any physical character positions on the display, so
+#     it should consist only of terminal escape sequences.  It is
+#     output to the terminal before displaying the text in the active
+#     region.  This variable is reset to the default value whenever
+#     the terminal type changes.  The default value is the string that
+#     puts the terminal in standout mode, as obtained from the
+#     terminal's terminfo description.  A sample value might be
+#     "\e[01;33m".
+#
+#   active-region-end-color
+#     A string variable that "undoes" the effects of
+#     active-region-start-color and restores "normal" terminal display
+#     appearance after displaying text in the active region.  This
+#     string must not take up any physical character positions on the
+#     display, so it should consist only of terminal escape sequences.
+#     It is output to the terminal after displaying the text in the
+#     active region.  This variable is reset to the default value
+#     whenever the terminal type changes.  The default value is the
+#     string that restores the terminal from standout mode, as
+#     obtained from the terminal's terminfo description.  A sample
+#     value might be "\e[0m".
+#
+#   bell-style (audible)
+#     Controls what happens when readline wants to ring the terminal
+#     bell.  If set to none, readline never rings the bell.  If set
+#     to visible, readline uses a visible bell if one is available.
+#     If set to audible, readline attempts to ring the terminal's bell.
+#
+#   bind-tty-special-chars (On)
+#     If set to On, readline attempts to bind the control characters
+#     treated specially by the kernel's terminal driver to their
+#     readline equivalents.
+#
+#   blink-matching-paren (Off)
+#     If set to On, readline attempts to briefly move the cursor to an
+#     opening parenthesis when a closing parenthesis is inserted.
+#
+#   colored-completion-prefix (Off)
+#     If set to On, when listing completions, readline displays the
+#     common prefix of the set of possible completions using a
+#     different color.  The color definitions are taken from the
+#     value of the LS_COLORS environment variable.  If there is a
+#     color definition in $LS_COLORS for the custom suffix
+#     "readline-colored-completion-prefix", readline uses this color
+#     for the common prefix instead of its default.
+#
+#   colored-stats (Off)
+#     If set to On, readline displays possible completions using
+#     different colors to indicate their file type.  The color
+#     definitions are taken from the value of the LS_COLORS
+#     environment variable.
+#
+#   comment-begin (``#'')
+#     The string that is inserted when the readline insert-comment
+#     command is executed.  This command is bound to M-# in emacs mode
+#     and to # in vi command mode.
+#
+#   completion-display-width (-1)
+#     The number of screen columns used to display possible matches
+#     when performing completion.  The value is ignored if it is less
+#     than 0 or greater than the terminal screen width.  A value of 0
+#     will cause matches to be displayed one per line.  The default
+#     value is -1.
+#
+#   completion-ignore-case (Off)
+#     If set to On, readline performs filename matching and completion
+#     in a case-insensitive fashion.
+#
+#   completion-map-case (Off)
+#     If set to On, and completion-ignore-case is enabled, readline
+#     treats hyphens (-) and underscores (_) as equivalent when
+#     performing case-insensitive filename matching and completion.
+#
+#   completion-prefix-display-length(0)
+#     The length in characters of the common prefix of a list of
+#     possible completions that is displayed without modification.
+#     When set to a value greater than zero, common prefixes longer
+#     than this value are replaced with an ellipsis when displaying
+#     possible completions.
+#
+#   completion-query-items (100)
+#     This determines when the user is queried about viewing the
+#     number of possible completions generated by the
+#     possible-completions command.  It may be set to any integer
+#     value greater than or equal to zero.  If the number of possible
+#     completions is greater than or equal to the value of this
+#     variable, readline will ask whether or not the user wishes to
+#     view them; otherwise they are simply listed on the terminal.
+#     A zero value means readline should never ask; negative values
+#     are treated as zero.
+#
+#   convert-meta (On)
+#     If set to On, readline will convert characters with the eighth
+#     bit set to an ASCII key sequence by stripping the eighth bit
+#     and prefixing an escape character (in effect, using escape as
+#     the meta prefix).  The default is On, but readline will set it
+#     to Off if the locale contains eight-bit characters.  This
+#     variable is dependent on the LC_CTYPE locale category, and may
+#     change if the locale is changed.
+#
+#   disable-completion (Off)
+#     If set to On, readline will inhibit word completion. Completion
+#     characters will be inserted into the line as if they had been
+#     mapped to self-insert.
+#
+#   echo-control-characters (On)
+#     When set to On, on operating systems that indicate they support
+#     it, readline echoes a character corresponding to a signal
+#     generated from the keyboard.
+#
+#   editing-mode (emacs)
+#     Controls whether readline begins with a set of key bindings
+#     similar to Emacs or vi.  editing-mode can be set to either emacs
+#     or vi.
+#
+#   emacs-mode-string (@)
+#     If the show-mode-in-prompt variable is enabled, this string is
+#     displayed immediately before the last line of the primary prompt
+#     when emacs editing mode is active.  The value is control
+#     expanded like a key binding, so the standard set of meta- and
+#     prefixes and backslash escape sequences is available.  Use the
+#     \1 and \2 escapes to begin and end sequences of non-printing
+#     characters, which can be used to embed a terminal control
+#     sequence into the mode string.
+#
+#   enable-active-region (On)
+#     The point is the current cursor position, and mark refers to a
+#     saved cursor position.  The text between the point and mark is
+#     referred to as the region.  When this variable is set to On,
+#     readline allows certain commands to designate the region as
+#     active.  When the region is active, readline highlights the text
+#     in the region using the value of the
+#     active-region-start-color, which defaults to the string that
+#     enables the terminal's standout mode.  The active region shows
+#     the text inserted by bracketed-paste and any matching text found
+#     by incremental and non-incremental history searches.
+#
+#   enable-bracketed-paste (On)
+#     When set to On, readline configures the terminal to insert each
+#     paste into the editing buffer as a single string of characters,
+#     instead of treating each character as if it had been read from
+#     the keyboard.  This prevents readline from executing any
+#     editing commands bound to key sequences appearing in the pasted
+#     text.
+#
+#   enable-keypad (Off)
+#     When set to On, readline will try to enable the application
+#     keypad when it is called.  Some systems need this to enable the
+#     arrow keys.
+#
+#   enable-meta-key (On)
+#     When set to On, readline will try to enable any meta modifier
+#     key the terminal claims to support when it is called.  On many
+#     terminals, the meta key is used to send eight-bit characters.
+#
+#   expand-tilde (Off)
+#     If set to On, tilde expansion is performed when readline
+#     attempts word completion.
+#
+#   history-preserve-point (Off)
+#     If set to On, the history code attempts to place point at the
+#     same location on each history line retrieved with
+#     previous-history or next-history.
+#
+#   history-size (unset)
+#     Set the maximum number of history entries saved in the history
+#     list.  If set to zero, any existing history entries are deleted
+#     and no new entries are saved.  If set to a value less than zero,
+#     the number of history entries is not limited.  By default, the
+#     number of history entries is set to the value of the HISTSIZE
+#     shell variable.  If an attempt is made to set history-size to a
+#     non-numeric value, the maximum number of history entries will be
+#     set to 500.
+#
+#   horizontal-scroll-mode (Off)
+#     When set to On, makes readline use a single line for display,
+#     scrolling the input horizontally on a single screen line when
+#     it becomes longer than the screen width rather than wrapping to
+#     a new line.  This setting is automatically enabled for terminals
+#     of height 1.
+#
+#   input-meta (Off)
+#     If set to On, readline will enable eight-bit input (that is, it
+#     will not strip the eighth bit from the characters it reads),
+#     regardless of what the terminal claims it can support.  The name
+#     meta-flag is a synonym for this variable.  The default is Off,
+#     but readline will set it to On if the locale contains eight-bit
+#     characters.  This variable is dependent on the LC_CTYPE locale
+#     category, and may change if the locale is changed.
+#
+#   isearch-terminators (``C-[C-J'')
+#     The string of characters that should terminate an incremental
+#     search without subsequently executing the character as a command.
+#     If this variable has not been given a value, the characters ESC
+#     and C-J will terminate an incremental search.
+#
+#   keymap (emacs)
+#     Set the current readline keymap.  The set of valid keymap names
+#     is emacs, emacs-standard, emacs-meta, emacs-ctlx, vi, vi-command,
+#     and vi-insert.  vi is equivalent to vi-command; emacs is
+#     equivalent to emacs-standard.  The default value is emacs; the
+#     value of editing-mode also affects the default keymap.
+#
+#   keyseq-timeout (500)
+#     Specifies the duration readline will wait for a character when
+#     reading an ambiguous key sequence (one that can form a complete
+#     key sequence using the input read so far, or can take additional
+#     input to complete a longer key sequence).
+#     If no input is received within the timeout, readline will use
+#     the shorter but complete key sequence.  The value is specified
+#     in milliseconds, so a value of 1000 means that readline will
+#     wait one second for additional input.  If this variable is set
+#     to a value less than or equal to zero, or to a non-numeric
+#     value, readline will wait until another key is pressed to decide
+#     which key sequence to complete.
+#
+#   mark-directories (On)
+#     If set to On, completed directory names have a slash appended.
+#
+#   mark-modified-lines (Off)
+#     If set to On, history lines that have been modified are
+#     displayed with a preceding asterisk (*).
+#
+#   mark-symlinked-directories (Off)
+#     If set to On, completed names which are symbolic links to
+#     directories have a slash appended (subject to the value of
+#     mark-directories).
+#
+#   match-hidden-files (On)
+#     This variable, when set to On, causes readline to match files
+#     whose names begin with a `.' (hidden files) when performing
+#     filename completion.  If set to Off, the leading `.' must be
+#     supplied by the user in the filename to be completed.
+#
+#   menu-complete-display-prefix (Off)
+#     If set to On, menu completion displays the common prefix of the
+#     list of possible completions (which may be empty) before cycling
+#     through the list.
+#
+#   output-meta (Off)
+#     If set to On, readline will display characters with the eighth
+#     bit set directly rather than as a meta-prefixed escape
+#     sequence.  The default is Off, but readline will set it to On if
+#     the locale contains eight-bit characters.  This variable is
+#     dependent on the LC_CTYPE locale category, and may change if the
+#     locale is changed.
+#
+#   page-completions (On)
+#     If set to On, readline uses an internal more-like pager to
+#     display a screenful of possible completions at a time.
+#
+#   print-completions-horizontally (Off)
+#     If set to On, readline will display completions with matches
+#     sorted horizontally in alphabetical order, rather than down the
+#     screen.
+#
+#   revert-all-at-newline (Off)
+#     If set to On, readline will undo all changes to history lines
+#     before returning when accept-line is executed.  By default,
+#     history lines may be modified and retain individual undo lists
+#     across calls to readline.
+#
+#   show-all-if-ambiguous (Off)
+#     This alters the default behavior of the completion functions.
+#     If set to On, words which have more than one possible completion
+#     cause the matches to be listed immediately instead of ringing
+#     the bell.
+#
+#   show-all-if-unmodified (Off)
+#     This alters the default behavior of the completion functions in
+#     a fashion similar to show-all-if-ambiguous. If set to On, words
+#     which have more than one possible completion without any
+#     possible partial completion (the possible completions don't
+#     share a common prefix) cause the matches to be listed
+#     immediately instead of ringing the bell.
+#
+#   show-mode-in-prompt (Off)
+#     If set to On, add a string to the beginning of the prompt
+#     indicating the editing mode: emacs, vi command, or vi insertion.
+#     The mode strings are user-settable (e.g., emacs-mode-string).
+#
+#   skip-completed-text (Off)
+#     If set to On, this alters the default completion behavior when
+#     inserting a single match into the line.  It's only active when
+#     performing completion in the middle of a word.
+#     If enabled, readline does not insert characters from the
+#     completion that match characters after point in the word being
+#     completed, so portions of the word following the cursor are not
+#     duplicated.
+#
+#   vi-cmd-mode-string ((cmd))
+#     If the show-mode-in-prompt variable is enabled, this string is
+#     displayed immediately before the last line of the primary prompt
+#     when vi editing mode is active and in command mode.
+#     The value is expanded like a key binding, so the standard set of
+#     meta- and control prefixes and backslash escape sequences is
+#     available.  Use the \1 and \2 escapes to begin and end sequences
+#     of non-printing characters, which can be used to embed a
+#     terminal control sequence into the mode string.
+#
+#   vi-ins-mode-string ((ins))
+#     If the show-mode-in-prompt variable is enabled, this string is
+#     displayed immediately before the last line of the primary prompt
+#     when vi editing mode is active and in insertion mode.  The value
+#     is expanded like a key binding, so the standard set of
+#     meta- and control prefixes and backslash escape sequences is
+#     available.  Use the \1 and \2 escapes to begin and end sequences
+#     of non-printing characters, which can be used to embed a
+#     terminal control sequence into the mode string.
+#
+#   visible-stats (Off)
+#     If set to On, a character denoting a file's type as reported by
+#     stat(2) is appended to the filename when listing possible
+#     completions.
+#
+
+# Mode and Key Sequence
+set editing-mode emacs
+set keyseq emacs
+set show-mode-in-prompt on
+
+# Input
+set expand-tilde on
+set blink-matching-paren on
+
+# Meta Support
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Bell Style
+set bell-style off
+
+# Stats
+set visible-stats on
+set colored-stats on
+
+# Reqion
+set enable-active-region on
+set active-region-start-color \e[01;32
+set active-region-end-color \e[0m
+
+# History
+set history-size 384
+set history-preserve-point on
+set mark-modified-lines on
+set revert-all-at-newline on
+
+# Completions
+set completion-ignore-case off
+set page-completions on
+set menu-complete-display-prefix on
+set completion-prefix-display-length 0
+set completion-query-items 64
+set colored-completion-prefix on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set match-hidden-files off
+set mark-directories on
+set mark-symlinked-directories on
+
+##
+# key bindings
+##
+
+# COMMANDS FOR MOVING
+#
+# beginning-of-line (C-a)
+#   Move to the start of the current line.
+#
+# end-of-line (C-e)
+#   Move to the end of the line.
+#
+# forward-char (C-f)
+#   Move forward a character.
+#
+# backward-char (C-b)
+#   Move back a character.
+#
+# forward-word (M-f)
+#   Move forward to the end of the next word.  Words are composed of
+#   alphanumeric characters (letters and digits).
+#
+# backward-word (M-b)
+#   Move back to the start of the current or previous word.
+#   Words are composed of alphanumeric characters (letters and digits).
+#
+# shell-forward-word
+#   Move forward to the end of the next word.  Words are delimited by
+#   non-quoted shell metacharacters.
+#
+# shell-backward-word
+#   Move back to the start of the current or previous word.  Words are
+#   delimited by non-quoted shell metacharacters.
+#
+# previous-screen-line
+#   Attempt to move point to the same physical screen column on the
+#   previous physical screen line. This will not have the desired
+#   effect if the current readline line does not take up more than one
+#   physical line or if point is not greater than the length of the
+#   prompt plus the screen width.
+#
+# next-screen-line
+#   Attempt to move point to the same physical screen column on the
+#   next physical screen line. This will not have the desired effect
+#   if the current readline line does not take up more than one
+#   physical line or if the length of the current readline line is not
+#   greater than the length of the prompt plus the screen width.
+#
+# clear-display (M-C-l)
+#   Clear the screen and, if possible, the terminal's scrollback
+#   buffer, then redraw the current line, leaving the current line at
+#   the top of the screen.
+#
+# clear-screen (C-l)
+#   Clear the screen, then redraw the current line, leaving the
+#   current line at the top of the screen.  With an argument, refresh
+#   the current line without clearing the screen.
+#
+# redraw-current-line
+#   Refresh the current line.
+#
+"\C-b":     backward-char
+"\M-[D":    backward-char       # [LEFT-ALLOW] (ANSI mode) *
+"\M-OD":    backward-char       # [LEFT-ALLOW] (Keypad mode)
+"\M-\C-[D": backward-char       # [LEFT-ALLOW] (8bit ANSI mode)
+"\M-\C-OD": backward-char       # [LEFT-ALLOW] (8bit Keypad mode)
+"\M-b":     backward-word
+"\C-f":     forward-char
+"\M-[C":    forward-char        # [RIGHT-ALLOW] (ANSI mode) *
+"\M-OC":    forward-char        # [RIGHT-ALLOW] (Keypad mode)
+"\M-\C-[C": forward-char        # [RIGHT-ALLOW] (8bit ANSI mode)
+"\M-\C-OC": forward-char        # [RIGHT-ALLOW] (8bit Keypad mode)
+"\M-f":     forward-word
+"\C-a":     beginning-of-line
+"\C-e":     end-of-line
+"\C-l":     clear-screen
+
+# COMMANDS FOR MANIPULATING THE HISTORY
+#
+# accept-line (Newline, Return)
+#   Accept the line regardless of where the cursor is.  If this line
+#   is non-empty, add it to the history list according to the state of
+#   the HISTCONTROL variable.  If the line is a modified history line,
+#   then restore the history line to its original state.
+#
+# previous-history (C-p)
+#   Fetch the previous command from the history list, moving back in
+#   the list.
+#
+# next-history (C-n)
+#   Fetch the next command from the history list, moving forward in
+#   the list.
+#
+# beginning-of-history (M-<)
+#   Move to the first line in the history.
+#
+# end-of-history (M->)
+#   Move to the end of the input history, i.e., the line currently
+#   being entered.
+#
+# operate-and-get-next (C-o)
+#   Accept the current line for execution and fetch the next line
+#   relative to the current line from the history for editing.  A
+#   numeric argument, if supplied, specifies the history entry to use
+#   instead of the current line.
+#
+# fetch-history
+#   With a numeric argument, fetch that entry from the history list
+#   and make it the current line.  Without an argument, move back to
+#   the first entry in the history list.
+#
+# reverse-search-history (C-r)
+#   Search backward starting at the current line and moving `up'
+#   through the history as necessary.  This is an incremental search.
+#
+# forward-search-history (C-s)
+#   Search forward starting at the current line and moving `down'
+#   through the history as necessary.  This is an incremental search.
+#
+# non-incremental-reverse-search-history (M-p)
+#   Search backward through the history starting at the current line
+#   using a non-incremental search for a string supplied by the user.
+#
+# non-incremental-forward-search-history (M-n)
+#   Search forward through the history using a non-incremental search
+#   for a string supplied by the user.
+#
+# history-search-forward
+#   Search forward through the history for the string of characters
+#   between the start of the current line and the point.  This is a
+#   non-incremental search.
+#
+# history-search-backward
+#   Search backward through the history for the string of characters
+#   between the start of the current line and the point.  This is a
+#   non-incremental search.
+#
+# history-substring-search-backward
+#   Search backward through the history for the string of characters
+#   between the start of the current line and the current cursor
+#   position (the point).  The search string may match anywhere in a
+#   history line.  This is a non-incremental search.
+#
+# history-substring-search-forward
+#   Search forward through the history for the string of characters
+#   between the start of the current line and the point.  The search
+#   string may match anywhere in a history line.  This is a
+#   non-incremental search.
+#
+# yank-nth-arg (M-C-y)
+#   Insert the first argument to the previous command (usually the
+#   second word on the previous line) at point.  With an argument n,
+#   insert the nth word from the previous command (the words in the
+#   previous command begin with word 0).  A negative argument inserts
+#   the nth word from the end of the previous command.  Once the
+#   argument n is computed, the argument is extracted as if the "!n"
+#   history expansion had been specified.
+#
+# yank-last-arg (M-., M-_)
+#   Insert the last argument to the previous command (the last word of
+#   the previous history entry).  With a numeric argument, behave
+#   exactly like yank-nth-arg.  Successive calls to yank-last-arg move
+#   back through the history list, inserting the last word (or the
+#   word specified by the argument to the first call) of each line in
+#   turn.  Any numeric argument supplied to these successive calls
+#   determines the direction to move through the history.  A negative
+#   argument switches the direction through the history (back or
+#   forward).  The history expansion facilities are used to extract
+#   the last word, as if the "!$" history expansion had been specified.
+#
+# shell-expand-line (M-C-e)
+#   Expand the line as the shell does.  This performs alias and
+#   history expansion as well as all of the shell word expansions.
+#   See HISTORY EXPANSION below for a description of history expansion.
+#
+# history-expand-line (M-^)
+#   Perform history expansion on the current line.  See HISTORY
+#   EXPANSION below for a description of history expansion.
+#
+# magic-space
+#   Perform history expansion on the current line and insert a space.
+#   See HISTORY EXPANSION below for a description of history expansion.
+#
+# alias-expand-line
+#   Perform alias expansion on the current line.  See ALIASES above
+#   for a description of alias expansion.
+#
+# history-and-alias-expand-line
+#   Perform history and alias expansion on the current line.
+#
+# insert-last-argument (M-., M-_)
+#   A synonym for yank-last-arg.
+#
+# edit-and-execute-command (C-x C-e)
+#   Invoke an editor on the current command line, and execute the
+#   result as shell commands.  Bash attempts to invoke $VISUAL,
+#   $EDITOR, and emacs as the editor, in that order.
+#
+"\C-j":     accept-line
+"\C-m":     accept-line
+"\C-o":     self-insert
+## history
+"\C-p":     previous-history
+"\M-[A":    previous-history    # [UP-ARROW] (ANSI mode) *
+"\M-\C-[A": previous-history    # [UP-ARROW] (8bit ANSI mode)
+"\M-OA":    previous-history    # [UP-ARROW] (Keypad mode) *
+"\M-\C-OA": previous-history    # [UP-ARROW] (8bit Keypad mode)
+"\C-n":     next-history
+"\M-[B":    next-history        # [DOWN-ARROW] (ANSI mode) *
+"\M-\C-[B": next-history        # [DOWN-ARROW] (8bit ANSI mode)
+"\M-OB":    next-history        # [DOWN-ARROW] (Keypad mode) *
+"\M-\C-OB": next-history        # [DOWN-ARROW] (8bit Keypad mode)
+"\C-s":     forward-search-history
+"\C-r":     reverse-search-history
+"\C-x\C-e": edit-and-execute-command
+"\C-x\C-o": operate-and-get-next
+"\M-.":     insert-last-argument
+"\M-_":     insert-last-argument
+
+# COMMANDS FOR CHANGING TEXT
+#
+# end-of-file (usually C-d)
+#   The character indicating end-of-file as set, for example,by
+#   ``stty''.  If this character is read when there are no characters
+#   on the line, and point is at the beginning of the line, readline
+#   interprets it as the end of input and returns EOF.
+#
+# delete-char (C-d)
+#   Delete the character at point.  If this function is bound to the
+#   same character as the tty EOF character, as C-d commonly is, see
+#   above for the effects.
+#
+# backward-delete-char (Rubout)
+#   Delete the character behind the cursor.  When given a numeric
+#   argument, save the deleted text on the kill ring.
+#
+# forward-backward-delete-char
+#   Delete the character under the cursor, unless the cursor is at the
+#   end of the line, in which case the character behind the cursor is
+#   deleted.
+#
+# quoted-insert (C-q, C-v)
+#   Add the next character typed to the line verbatim.  This is how to
+#   insert characters like C-q, for example.
+#
+# tab-insert (C-v TAB)
+#   Insert a tab character.
+#
+# self-insert (a, b, A, 1, !, ...)
+#   Insert the character typed.
+#
+# transpose-chars (C-t)
+#   Drag the character before point forward over the character at
+#   point, moving point forward as well.  If point is at the end of
+#   the line, then this transposes the two characters before point.
+#   Negative arguments have no effect.
+#
+# transpose-words (M-t)
+#   Drag the word before point past the word after point, moving
+#   point over that word as well.  If point is at the end of the line,
+#   this transposes the last two words on the line.
+#
+# upcase-word (M-u)
+#   Uppercase the current (or following) word.  With a negative
+#   argument, uppercase the previous word, but do not move point.
+#
+# downcase-word (M-l)
+#   Lowercase the current (or following) word.  With a negative
+#   argument, lowercase the previous word, but do not move point.
+#
+# capitalize-word (M-c)
+#   Capitalize the current (or following) word.  With a negative
+#   argument, capitalize the previous word, but do not move point.
+#
+# overwrite-mode
+#   Toggle overwrite mode.  With an explicit positive numeric argument,
+#   switches to overwrite mode.  With an explicit non-positive numeric
+#   argument, switches to insert mode.  This command affects only
+#   emacs mode; vi mode does overwrite differently.  Each call to
+#   starts in insert mode.  In overwrite mode, characters bound to
+#   self-insert replace the text at point rather than pushing the text
+#   to the right.  Characters bound to backward-delete-char replace
+#   the character before point with a space.  By default, this command
+#   is unbound.
+#
+## Delete
+DEL:        delete-char
+"\C-d":     delete-char
+"\C-?":     delete-char
+"\M-[3~":   delete-char         # [DEL]
+## Backspace
+"\C-h":     backward-delete-char
+## TAB Insert
+"\M-TAB":   tab-insert
+## Quoted Insert
+"\C-q":     self-insert
+"\M-q":     quoted-insert
+## Upper/Lower
+"\M-u":     upcase-word
+"\M-l":     downcase-word
+"\M-c":     capitalize-word
+
+# KILLING AND YANKING
+#
+# kill-line (C-k)
+#   Kill the text from point to the end of the line.
+#
+# backward-kill-line (C-x Rubout)
+#   Kill backward to the beginning of the line.
+#
+# unix-line-discard (C-u)
+#   Kill backward from point to the beginning of the line.  The killed
+#   text is saved on the kill-ring.
+#
+# kill-whole-line
+#   Kill all characters on the current line, no matter where point is.
+#
+# kill-word (M-d)
+#   Kill from point to the end of the current word, or if between
+#   words,to the end of the next word.  Word boundaries are the same
+#   as those used by forward-word.
+#
+# backward-kill-word (M-Rubout)
+#   Kill the word behind point.  Word boundaries are the same as those
+#   used by backward-word.
+#
+# shell-kill-word
+#   Kill from point to the end of the current word, or if between
+#   words, to the end of the next word.  Word boundaries are the same
+#   as those used by shell-forward-word.
+#
+# shell-backward-kill-word
+#   Kill the word behind point.  Word boundaries are the same as those
+#   used by shell-backward-word.
+#
+# unix-word-rubout (C-w)
+#   Kill the word behind point, using white space as a word boundary.
+#   The killed text is saved on the kill-ring.
+#
+# unix-filename-rubout
+#   Kill the word behind point, using white space and the slash
+#   character as the word boundaries.  The killed text is saved on the
+#   kill-ring.
+#
+# delete-horizontal-space (M-\)
+#   Delete all spaces and tabs around point.
+#
+# kill-region
+#   Kill the text in the current region.
+#
+# copy-region-as-kill
+#   Copy the text in the region to the kill buffer.
+#
+# copy-backward-word
+#   Copy the word before point to the kill buffer.  The word
+#   boundaries are the same as backward-word.
+#
+# copy-forward-word
+#   Copy the word following point to the kill buffer.  The word
+#   boundaries are the same as forward-word.
+#
+# yank (C-y)
+#   Yank the top of the kill ring into the buffer at point.
+#
+# yank-pop (M-y)
+#   Rotate the kill ring, and yank the new top.  Only works following
+#   yank or yank-pop.
+#
+## Kill
+"\C-k":     kill-line
+"\C-u":     backward-kill-line
+"\M-d":     kill-word
+"\M-h":     backward-kill-word
+"\C-x\C-l": kill-whole-line
+"\C-x\C-k": delete-horizontal-space
+## Yank
+"\C-y":     yank
+"\M-y":     yank-pop
+
+# NUMERIC ARGUMENTS
+#
+# digit-argument (M-0, M-1, ..., M--)
+#   Add this digit to the argument already accumulating, or start a
+#   new argument.  M-- starts a negative argument.
+#
+# universal-argument
+#   This is another way to specify an argument.  If this command is
+#   followed by one or more digits, optionally with a leading minus
+#   sign, those digits define the argument.  If the command is
+#   followed by digits, executing universal-argument again ends the
+#   numeric argument, but is otherwise ignored.  As a special case, if
+#   this command is immediately followed by a character that is
+#   neither a digit nor minus sign, the argument count for the next
+#   command is multiplied by four.  The argument count is initially
+#   one, so executing this function the first time makes the argument
+#   count four, a second time makes the argument count  sixteen, and
+#   so on.
+#
+#"\M-0":     digit-argument
+#"\M-1":     digit-argument
+#"\M-2":     digit-argument
+#"\M-3":     digit-argument
+#"\M-4":     digit-argument
+#"\M-5":     digit-argument
+#"\M-6":     digit-argument
+#"\M-7":     digit-argument
+#"\M-8":     digit-argument
+#"\M-9":     digit-argument
+#"\M--":     digit-argument
+
+# COMPLETING
+#
+# complete (TAB)
+#   Attempt to perform completion on the text before point.  Bash
+#   attempts completion treating the text as a variable (if the text
+#   begins with $), username (if the text begins with ~), hostname
+#   (if the text begins with @), or command (including aliases and
+#   functions) in turn.  If none of these produces a match, filename
+#   completion is attempted.
+#
+# possible-completions (M-?)
+#   List the possible completions of the text before point.
+#
+# insert-completions (M-*)
+#   Insert all completions of the text before point that would have
+#   been generated by possible-completions.
+#
+# menu-complete
+#   Similar to complete, but replaces the word to be completed with a
+#   single match from the list of possible completions.  Repeated
+#   execution of menu-complete steps through the list of possible
+#   completions, inserting each match in turn.  At the end of the list
+#   of completions, the bell is rung (subject to the setting of
+#   bell-style) and the original text is restored.  An argument of n
+#   moves n positions forward in the list of matches; a negative
+#   argument may be used to move backward through the list.  This
+#   command is intended to be bound to TAB, but is unbound by default.
+#
+# menu-complete-backward
+#   Identical to menu-complete, but moves backward through the list of
+#   possible completions, as if menu-complete had been given a
+#   negative argument.  This command is unbound by default.
+#
+# delete-char-or-list
+#   Deletes the character under the cursor if not at the beginning or
+#   end of the line (like delete-char).  If at the end of the line,
+#   behaves identically to possible-completions.  This command is
+#   unbound by default.
+#
+# complete-filename (M-/)
+#   Attempt filename completion on the text before point.
+#
+# possible-filename-completions (C-x /)
+#   List the possible completions of the text before point, treating
+#   it as a filename.
+#
+# complete-username (M-~)
+#   Attempt completion on the text before point, treating it as a
+#   username.
+#
+# possible-username-completions (C-x ~)
+#   List the possible completions of the text before point, treating
+#   it as a username.
+#
+# complete-variable (M-$)
+#   Attempt completion on the text before point, treating it as a
+#   shell variable.
+#
+# possible-variable-completions (C-x $)
+#   List the possible completions of the text before point, treating
+#   it as a shell variable.
+#
+# complete-hostname (M-@)
+#   Attempt completion on the text before point, treating it as a
+#   hostname.
+#
+# possible-hostname-completions (C-x @)
+#   List the possible completions of the text before point, treating
+#   it as a hostname.
+#
+# complete-command (M-!)
+#   Attempt completion on the text before point, treating it as a
+#   command name.  Command completion attempts to match the text
+#   against aliases, reserved words, shell functions, shell builtins,
+#   and finally executable filenames, in that order.
+#
+# possible-command-completions (C-x !)
+#   List the possible completions of the text before point, treating
+#   it as a command name.
+#
+# dynamic-complete-history (M-TAB)
+#   Attempt completion on the text before point, comparing the text
+#   against lines from the history list for possible completion
+#   matches.
+#
+# dabbrev-expand
+#   Attempt menu completion on the text before point, comparing the
+#   text against lines from the history list for possible completion
+#   matches.
+#
+# complete-into-braces (M-{)
+#   Perform filename completion and insert the list of possible
+#   completions enclosed within braces so the list is available to the
+#   shell (see Brace Expansion above).
+#
+TAB:        complete
+"\C-i":     complete
+"\M-!":     complete-command
+"\M-/":     complete-filename
+"\M-@":     complete-hostname
+"\M-{":     complete-into-braces
+"\M-~":     complete-username
+"\M-$":     complete-variable
+#"\C-x/":    possible-filename-completions
+#"\C-x@":    possible-hostname-completions
+#"\C-x~":    possible-username-completions
+#"\C-x$":    possible-variable-completions
+
+# KEYBOARD MACROS
+#
+# start-kbd-macro (C-x ()
+#   Begin saving the characters typed into the current keyboard macro.
+#
+# end-kbd-macro (C-x ))
+#   Stop saving the characters typed into the current keyboard macro
+#   and store the definition.
+#
+# call-last-kbd-macro (C-x e)
+#   Re-execute the last keyboard macro defined, by making the
+#   characters in the macro appear as if typed at the keyboard.
+#
+# print-last-kbd-macro ()
+#   Print the last keyboard macro defined in a format suitable for the
+#   inputrc file.
+#
+"\C-x(":    start-kbd-macro
+"\C-x)":    end-kbd-macro
+"\C-xe":    call-last-kbd-macro
+"\C-xp":    print-last-kbd-macro
+
+# MISCELLANEOUS
+#
+# re-read-init-file (C-x C-r)
+#   Read in the contents of the inputrc file, and incorporate any
+#   bindings or variable assignments found there.
+#
+# abort (C-g)
+#   Abort the current editing command and ring the terminal's bell
+#   (subject to the setting of bell-style).
+#
+# do-lowercase-version (M-A, M-B, M-x, ...)
+#   If the metafied character x is uppercase, run the command that is
+#   bound to the corresponding metafied lowercase character.  The
+#   behavior is undefined if x is already lowercase.
+#
+# prefix-meta (ESC)
+#   Metafy the next character typed.  ESC f is equivalent to
+#   Meta-f.
+#
+# undo (C-_, C-x C-u)
+#   Incremental undo, separately remembered for each line.
+#
+# revert-line (M-r)
+#   Undo all changes made to this line.  This is like executing the
+#   undo command enough times to return the line to its initial state.
+#
+# tilde-expand (M-&)
+#   Perform tilde expansion on the current word.
+#
+# set-mark (C-@, M-<space>)
+#   Set the mark to the point.  If a numeric argument is supplied, the
+#   mark is set to that position.
+#
+# exchange-point-and-mark (C-x C-x)
+#   Swap the point with the mark.  The current cursor position is set
+#   to the saved position, and the old cursor position is saved as the
+#   mark.
+#
+# character-search (C-])
+#   A character is read and point is moved to the next occurrence of
+#   that character.  A negative argument searches for previous
+#   occurrences.
+#
+# character-search-backward (M-C-])
+#   A character is read and point is moved to the previous occurrence
+#   of that character.  A negative argument searches for subsequent
+#   occurrences.
+#
+# skip-csi-sequence
+#   Read enough characters to consume a multi-key sequence such as
+#   those defined for keys like Home and End.  Such sequences begin
+#   with a Control Sequence Indicator (CSI), usually ESC-[.  If this
+#   sequence is bound to "\[", keys producing such sequences will
+#   have no effect unless explicitly bound to a readline command,
+#   instead of inserting stray characters into the editing buffer.
+#   This is unbound by default, but usually bound to ESC-[.
+#
+# insert-comment (M-#)
+#   Without a numeric argument, the value of the readline
+#   comment-begin variable is inserted at the beginning of the
+#   current line.  If a numeric argument is supplied, this command
+#   acts as a toggle: if the characters at the beginning of the line
+#   do not match the value of comment-begin, the value is inserted,
+#   otherwise the characters in comment-begin are deleted from the
+#   beginning of the line.  In either case, the line is accepted as if
+#   a newline had been typed.  The default value of comment-begin
+#   causes this command to make the current line a shell comment.  If
+#   a numeric argument causes the comment character to be removed, the
+#   line will be executed by the shell.
+#
+# spell-correct-word (C-x s)
+#   Perform spelling correction on the current word, treating it as a
+#   directory or filename, in the same way as the cdspell shell option.
+#   Word boundaries are the same as those used by shell-forward-word.
+#
+# glob-complete-word (M-g)
+#   The word before point is treated as a pattern for pathname
+#   expansion, with an asterisk implicitly appended.  This pattern is
+#   used to generate a list of matching filenames for possible
+#   completions.
+#
+# glob-expand-word (C-x *)
+#   The word before point is treated as a pattern for pathname
+#   expansion, and the list of matching filenames is inserted,
+#   replacing the word.  If a numeric argument is supplied, an
+#   asterisk is appended before pathname expansion.
+#
+# glob-list-expansions (C-x g)
+#   The list of expansions that would have been generated by
+#   glob-expand-word is displayed, and the line is redrawn.  If a
+#   numeric argument is supplied, an asterisk is appended before
+#   pathname expansion.
+#
+# dump-functions
+#   Print all of the functions and their key bindings to the readline
+#   output stream.  If a numeric argument is supplied, the output is
+#   formatted in such a way that it can be made part of an inputrc
+#   file.
+#
+# dump-variables
+#   Print all of the settable readline variables and their values to
+#   the readline output stream.  If a numeric argument is supplied,
+#   the output is formatted in such a way that it can be made part of
+#   an inputrc file.
+#
+# dump-macros
+#   Print all of the readline key sequences bound to macros and the
+#   strings they output.  If a numeric argument is supplied, the
+#   output is formatted in such a way that it can be made part of an
+#   inputrc file.
+#
+# display-shell-version (C-x C-v)
+#   Display version information about the current instance of bash.
+#
+ESC:        prefix-meta
+"\C-g":     abort
+"\M-r":     revert-line
+"\C-_":     undo
+"\C-x\C-u": undo
+"\C-@":     set-mark
+"\C-x\C-x": self-insert
+"\C-x\C-@": exchange-point-and-mark
+"\C-x\C-r": re-read-init-file
+$if mode=vi
+"\C-e":     emacs-editing-mode
+$endif
+$if mode=emacs
+"\M-\C-j":  vi-editing-mode
+$endif
+
+# End

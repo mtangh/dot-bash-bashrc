@@ -1,0 +1,15 @@
+# ${HOME}/.bashrc
+# User local .bashrc file for interactive bash(1) shells.
+
+# If bash.bashrc exists,
+# Non-login shells will source bash.bashrc here.
+[ -d "${XDG_CONFIG_HOME:=$HOME/.config}" ] &&
+[ -f "${XDG_CONFIG_HOME}/bash.bashrc" ] &&
+   . "${XDG_CONFIG_HOME}/bash.bashrc" || :
+
+
+# Define your environments and aliases here
+
+
+
+# End

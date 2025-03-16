@@ -1,0 +1,3 @@
+-a /usr/X11R6/bin
+-a /usr/X11/bin
+-a /opt/X11/bin

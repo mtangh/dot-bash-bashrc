@@ -1,0 +1,14 @@
+# ${HOME}/.bash_logout
+# User local .bash_logout file
+
+# Clear the screen
+# if the shell is a login shell and the last shell.
+shopt -q login_shell &&
+[ "${SHLVL:-0}" = "1" ] &&
+if [ -n "$(type -P reset)" ]
+then reset
+elif [ -n "$(type -P clear)" ]
+then clear
+fi || :
+
+# End

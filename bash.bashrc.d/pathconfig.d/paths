@@ -1,0 +1,5 @@
+-i /opt/bin
+-i /opt/local/bin
+-i /usr/bin
+-i /usr/local/bin
+-i /bin

@@ -1,0 +1,282 @@
+#!/bin/bash
+[ "$0" = "$BASH_SOURCE" ] 1>/dev/null 2>&1 || {
+echo "Run it directory." 1>&2; exit 1; }
+THIS="${BASH_SOURCE}"
+NAME="${THIS##*/}"
+BASE="${NAME%.*}"
+CDIR=$([ -n "${THIS%/*}" ] && cd "${THIS%/*}" &>/dev/null || :; pwd)
+# Prohibits overwriting by redirect and use of undefined variables.
+set -Cu
+# The return value of a pipeline is the value of the last command to
+# exit with a non-zero status.
+set -o pipefail
+
+# Internal variables
+MODE=""
+PRNT=""
+FRCE=0
+TARG=""
+NEWP=""
+BUFF=""
+DELM=":"
+ARGV=""
+XTRC=0
+
+# functions
+
+## Remove trailing separator
+_remove_trail_slash() {
+  local _lst="${1:-}"; shift
+  _lst="${_lst//\/\//\/}" && _lst="${_lst%/}" &&
+  _lst="${_lst//\/$DELM/$DELM}" &&
+  echo "${_lst}"
+  return $?
+}
+## Convert relative path to absolute path
+_rel2abs_path() {
+  local _dir="${1:-}"; shift
+  _dir=$(_remove_trail_slash "${_dir}")
+  ( [ -d "${_dir}" -a -d "${_dir:-X}" ] &&
+    cd "${_dir:-X}" &>/dev/null && pwd ||
+    { echo "${_dir}"; exit 22; }; )
+  return $?
+}
+## Check exist path string
+_path_exist() {
+  local _lst="${1:-}"; shift
+  local _dir="${1:-}"; shift
+  _lst=$(_remove_trail_slash "${_lst:-}")
+  _dir=$(_rel2abs_path "${_dir:-}")
+  [ "${_lst}" = "${_dir}" ] ||
+  [[ "${_lst}" = ${_dir}${DELM}* ]] ||
+  [[ "${_lst}" = *${DELM}${_dir}${DELM}* ]] ||
+  [[ "${_lst}" = *${DELM}${_dir} ]]
+  return $?
+}
+## Path remove
+_path_remove() {
+  local _lst="${1:-}"; shift
+  local _dir="${1:-}"; shift
+  local newp=""
+  _lst=$(_remove_trail_slash "${_lst:-}")
+  _dir=$(_rel2abs_path "${_dir:-}")
+  newp="${_lst}"
+  newp="${newp#$_dir$DELM}"
+  newp="${newp//$DELM$_dir$DELM/$DELM}"
+  newp="${newp%$DELM$_dir}"
+  echo "${newp}"
+  [ "${_lst}" != "${newp}" ]
+  return $?
+}
+## Add path string
+add_path() {
+  local _lst="${1:-}"; shift
+  local _dir=""
+  local newp=""
+  _lst=$(_remove_trail_slash "${_lst:-}")
+  newp="${_lst}"
+  while [ $# -gt 0 ]
+  do
+    _dir="${1:-}"; shift
+    [ -n "${_dir}" ] || continue
+    _dir=$(_rel2abs_path "${_dir}") ||
+    [ ${FRCE:-0} -ne 0 ] || continue
+    [ ${FRCE:-0} -eq 0 ] ||
+    newp=$(_path_remove "${newp}" "${_dir}")
+    _path_exist "${newp}" "${_dir}" ||
+    newp="${newp:+$newp$DELM}${_dir}"
+  done
+  echo "${newp}"
+  [ "${_lst}" != "${newp}" ]
+  return $?
+}
+## Insert path
+ins_path() {
+  local _lst="${1:-}"; shift
+  local _dir=""
+  local newp=""
+  local insp=""
+  _lst=$(_remove_trail_slash "${_lst:-}")
+  newp="${_lst}"
+  while [ $# -gt 0 ]
+  do
+    _dir="${1:-}"; shift
+    [ -n "${_dir}" ] || continue
+    _dir=$(_rel2abs_path "${_dir}") ||
+    [ ${FRCE:-0} -ne 0 ] || continue
+    [ ${FRCE:-0} -eq 0 ] ||
+    newp=$(_path_remove "${newp}" "${_dir}")
+    _path_exist "${newp}" "${_dir}" ||
+    _path_exist "${insp}" "${_dir}" ||
+    insp="${insp:+$insp$DELM}${_dir}"
+  done
+  [ -n "${insp}" ] &&
+  newp="${insp}${newp:+$DELM$newp}" || :
+  echo "${newp}"
+  [ "${_lst}" != "${newp}" ]
+  return $?
+}
+## Delete path
+del_path() {
+  local _lst="${1:-}"; shift
+  local _dir=""
+  local newp=""
+  _lst=$(_remove_trail_slash "${_lst:-}")
+  newp="${_lst}"
+  while [ $# -gt 0 ]
+  do
+    _dir="${1:-}"; shift
+    _dir=$(_rel2abs_path "${_dir}") &&
+    newp=$(_path_remove "${newp}" "${_dir}")
+  done
+  echo "${newp}"
+  [ "${_lst}" != "${newp}" ]
+  return $?
+}
+## Modify path environment
+mod_path_env() {
+  local mode="${1:-}"; shift
+  local list="${1:-}"; shift
+  case ${mode} in
+  a) add_path "${list}" "$@" ;;
+  i) ins_path "${list}" "$@" ;;
+  d) del_path "${list}" "$@" ;;
+  *) echo "${list}" ;;
+  esac
+  return $?
+}
+## Print path list
+path_list() {
+  local _IFS="${IFS:-}"
+  local _ent=""
+  IFS="$DELM"; for _ent in ${1:-}; do
+  _remove_trail_slash "${_ent%/}"
+  done; IFS="${_IFS}"
+  return 0
+}
+## Usage
+usage() {
+/bin/cat - <<_EOF_
+Configuration for PATH environment.
+This command adds to, changes, or removes from PATH and
+PATH-like variables.
+
+Usage: ${NAME} path_var_name [OPTION] [{-a|-i|-d} path_string ...]
+
+[OPTIONS]
+-s	shell format
+-c	c shell format
+-l	list result
+-n	list result (with number)
+-f	force path manipulation
+-h	Print this help
+
+_EOF_
+  return 0
+}
+
+# First argument
+if [ -n "${1:-}" ] && [[ "${1:-}" != -* ]]
+then
+  TARG="${1:-}"; shift
+  set +u; NEWP="${!TARG}"; set -u
+else
+  usage
+  [[ "${1:-}" = -h* ]] ||
+  [ "${1:-}" = "--help" ]
+  exit $?
+fi
+
+# Parse options
+while [ $# -gt 0 ]
+do
+  case "${1:-}" in
+  -h|-help|--help)
+    usage; exit 0
+    ;;
+  -a*|-i*|-d*)
+    break
+    ;;
+  -*)
+    case "${1:-}" in
+    -s|-sh|--sh|-c|-csh|--csh|-[Ll]|-[Nn])
+      [ -z "${PRNT}" ] || {
+      echo "${NAME}: ERROR: Invalid argument, arg='${1:-}'." 1>&2
+      exit 22; }
+      PRNT="${1#*-}"
+      ;;
+    -S*)
+      if [ -n "${1#-S}" ] && [ "${1#-S}" != "${1:-}" ]
+      then DELM="${1#-S}"; DELM="${DELM:0:1}"
+      else DELM="${2:0:1}"; shift; fi
+      [ -z "${DELM}" ] ||
+      [[ ':;,|=-+%*#!?@&' = *${DELM}* ]] || {
+      echo "${NAME}: ERROR: Invalid argument, arg='${1:-}'." 1>&2
+      exit 22; }
+      ;;
+    -f|-force|--force)
+      FRCE=$(( ${FRCE:-0} + 1 ))
+      ;;
+    -x|-debug|--debug)
+      XTRC=$(( ${XTRC:-0} + 1 ))
+      ;;
+    *)
+      echo "${NAME}: ERROR: Invalid argument, arg='${1:-}'." 1>&2
+      exit 22
+      ;;
+    esac
+    shift
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+# Enable trace, verbose
+[ ${XTRC:-0} -eq 0 ] || {
+PS4='>(${NAME}:${LINENO:--})${FUNCNAME:+:$FUNCNAME()}: '
+export PS4; set -xv; }
+
+# PATH manipulation
+while [ $# -gt 0 ]
+do
+  case "${1:-}" in
+  -*)
+    [ -n "${BUFF}" ] && {
+    NEWP=$(mod_path_env ${MODE:=a} "${NEWP}" ${BUFF})
+    BUFF=""; }
+    if [[ "${1}" = -a* ]]
+    then MODE=a; BUFF="${1#-a}"
+    elif [[ "${1}" = -i* ]]
+    then MODE=i; BUFF="${1#-i}"
+    elif [[ "${1}" = -d* ]]
+    then MODE=d; BUFF="${1#-d}"
+    elif [ "${1}" = "--" ]
+    then MODE=""; BUFF=""
+    else
+      echo "${NAME}: ERROR: Invalid argument, arg='${1}'." 1>&2
+      exit 22
+    fi
+    ;;
+  *)
+    BUFF="${BUFF:+$BUFF }${1}"
+    ;;
+  esac
+  shift
+  [ $# -le 0 ] && [ -n "${BUFF}" ] && {
+  NEWP=$(mod_path_env "${MODE:=a}" "${NEWP}" ${BUFF})
+  BUFF=""; }
+done
+
+# Print new value
+case "${PRNT}" in
+s|sh)   echo "${TARG}="'"'"${NEWP}"'"'"; export ${TARG}" ;;
+c|csh)  echo "setenv ${TARG} "'"'"${NEWP}"'"' ;;
+[Ll])   path_list ${NEWP} ;;
+[Nn])   path_list ${NEWP} |/bin/cat -n ;;
+*)      echo "${NEWP}" ;;
+esac
+
+# end of shell
+exit 0
