@@ -19,15 +19,19 @@ for completdir in \
 /usr/{,local/}share/bash-completion/completions \
 "${usercmpltdir:-X}"/completions
 do
-  [ -d "${completdir:-}" ] ||
-    continue
-  for complet_sh in \
-  "${completdir}"{,"/${ostype:-OS}","/${vendor:-OV}"}/*.sh
-  do
-    [ -f "${complet_sh}" -a -x "${complet_sh}" ] && {
-    set +u; . "${complet_sh}"; set +u; } || :
-  done
-  unset complet_sh
+  if [ -d "${completdir:-}" ]
+  then
+    set +u
+    for complet_sh in \
+    "${completdir}"{,"/${ostype:-OS}","/${vendor:-OV}"}/*.sh
+    do
+      [ -f "${complet_sh}" -a \
+        -x "${complet_sh}" ] &&
+      . "${complet_sh}" || :
+    done
+    unset complet_sh
+    set -u
+  fi
 done 2>/dev/null || :
 unset usercmpltdir completdir
 

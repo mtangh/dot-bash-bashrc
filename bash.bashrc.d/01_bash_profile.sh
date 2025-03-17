@@ -9,15 +9,19 @@ for profiledir in \
   "${bashrclocaldir:-X}"/profile.d \
   "${bashrc_userdir:-X}"/{,.}profile.d
 do
-  [ -d "${profiledir}" ] ||
-    continue
-  for profile_sh in \
-  "${profiledir}"/*.sh{,".${ostype:-OS}",".${vendor:-OV}"}
-  do
-    [ -f "${profile_sh}" -a -x "${profile_sh}" ] && {
-    set +u; . "${profile_sh}"; set -u; } || :
-  done &>/dev/null
-  unset profile_sh
+  if [ -d "${profiledir}" ]
+  then
+    set +u
+    for profile_sh in \
+    "${profiledir}"/*.sh{,".${ostype:-OS}",".${vendor:-OV}"}
+    do
+      [ -f "${profile_sh}" -a \
+        -x "${profile_sh}" ] &&
+      . "${profile_sh}" || :
+    done
+    unset profile_sh
+    set -u
+  fi
 done
 unset profiledir
 

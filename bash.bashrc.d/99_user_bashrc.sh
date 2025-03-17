@@ -21,13 +21,16 @@
   # Source the scripts in the '${bashrc_userdir}' directory.
   if [ -d "${bashrc_userdir:-X}" ]
   then
+    set +u
     for dot_rc_scr in \
     "${bashrc_userdir}"/*.sh{,.${ostype:-OS},.${vendor:-OV}}
     do
-      [ -f "${dot_rc_scr}" -a -x "${dot_rc_scr}" ] && {
-      set +u; . "${dot_rc_scr}"; set -u; } || :
+      [ -f "${dot_rc_scr}" -a \
+        -x "${dot_rc_scr}" ] &&
+      . "${dot_rc_scr}" || :
     done
     unset dot_rc_scr
+    set -u
   fi
 
 } 2>/dev/null || :

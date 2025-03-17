@@ -39,16 +39,25 @@
 for env_path in \
 "${bashbashrc_dir}/environment" \
 "${bashrclocaldir:-X}/environment" \
-"${bashrc_userdir:-X}"/{bash_,.bash_,,.}environment
+"${bashrc_userdir:-X}/bash_environment" \
+"${bashrc_userdir:-X}/.bash_environment" \
+"${bashrc_userdir:-X}/environment" \
+"${bashrc_userdir:-X}/.environment"
 do
+  set +u
   for env_file in \
-  "${env_path}"{,.d/*,.d/"${ostype:-OS}"/*,.d/"${vendor:-OV}"/*}
+  "${env_path}" \
+  "${env_path}.d"/* \
+  "${env_path}.d/${ostype:-OS}"/* \
+  "${env_path}.d/${vendor:-OV}"/*
   do
-    [ -f "${env_file}" -a -x "${env_file}" ] && {
-    set +u; . "${env_file}"; set -u; } || :
+    [ -f "${env_file}" -a \
+      -x "${env_file}" ] &&
+    . "${env_file}" || :
   done
   unset env_file
-done 2>/dev/null || :
+  set -u
+done || :
 unset env_path
 
 # End

@@ -62,13 +62,16 @@ for aliases_path in \
 "${bashrclocaldir:-X}/aliases" \
 "${bashrc_userdir:-X}"/{bash_,.bash_,,.}aliases
 do
+  set +u
   for aliases_file in \
   "${aliases_path}"{,.d/*,.d/"${ostype:-OS}"/*,.d/"${vendor:-OV}"/*}
   do
-    [ -f "${aliases_file}" -a -r "${aliases_file}" ] && {
-    set +u; . "${aliases_file}"; set -u; } || :
+    [ -f "${aliases_file}" -a \
+      -r "${aliases_file}" ] &&
+    . "${aliases_file}" || :
   done
   unset aliases_file
+  set -u
 done 2>/dev/null || :
 unset aliases_path
 
