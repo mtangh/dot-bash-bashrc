@@ -13,11 +13,23 @@ PSU='\h'
 [ ${SHLVL:-1} -gt 1 ] && 
 PSU="${PSU}[${SHLVL}]" || :
 
+## PS
+PSO='\W'
+
+## Colors
+CL1=""
+CL2=""
+CL3=""
+CL4=""
+CLE=""
+
 # PS* for TERM
 case "${TERM:-}" in
 xterm*|screen*|tmux*|*-*color)
   # Set prompt color.
-  [ ${UID:--1} -eq 0 ] && CLR='1;31' || CLR='1;34'
+  [ ${UID:--1} -eq 0 ] &&
+  CLR='1;31' ||
+  CLR='1;34'
   CL1="\[\e[${CLR}m\]"
   CL2="\[\e[${CLR}m\]"
   CL3="\[\e[1;37m\]"
@@ -26,25 +38,22 @@ xterm*|screen*|tmux*|*-*color)
   unset CLR
   ;;
 *)
-  CL1=""
-  CL2=""
-  CL3=""
-  CL4=""
-  CLE=""
   ;;
 esac || :
 
 ## Set PS*
 PS0=''
-PS1="${CL1)${PSU}${CLE} ${CL2}"'\W\$'"${CLE} "
-PS2="${CL1}${PSU}${CLE} ${CL2}"'\W>'"${CLE} "
-PS3=" ${CL3}Select # =>${CLE} "
+PS1="${CL1)${PSU}${CLE} ${CL2}${PSO}"'\$'"${CLE} "
+PS2="${CL1}${PSU}${CLE} ${CL2}${PSO}>${CLE} "
+PS3='Select # => '
+PS3="${CL3}${PS3}${CLE} "
 PS4='+${BASH_SOURCE:+(${BASH_SOURCE##*/}${LINENO:+:$LINENO}):}'
 PS4="${PS4}"'${FUNCNAME:+ $FUNCNAME():}'
 PS4="${CL4}${PS4}${CLE} "
 
 ## Unset
-unset PRU CL1 CL2 CL3 CL4 CLE
+unset PSU PSO
+unset CL1 CL2 CL3 CL4 CLE
 
 # Set bash.bashrc dir if undefined.
 [ ! -d "${bashbashrc_dir:-X}" ] && {
