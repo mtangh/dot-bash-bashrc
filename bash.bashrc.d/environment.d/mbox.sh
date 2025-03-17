@@ -13,31 +13,29 @@ do
 done 2>/dev/null || :
 unset mboxconffile
 
-# Env: MBOX
-if [ -z "${MBOX:-}" ]
+# Env: MBOX and DEAD
+if [ -z "${MBOX:-}" -o -z "${DEAD:-}" ]
 then
-  [ -z "${MBOX:-}" -a \
-    -d "${XDG_DATA_HOME:-$HOME/.local/share}" ] &&
-  MBOX="${XDG_DATA_HOME:-$HOME/.local/share}/mbox" ||
-  [ -z "${MBOX:-}" -a \
-    -d "${HOME}/.local" ] &&
-  MBOX="${HOME}/.local/mbox" || :
-  [ -z "${MBOX:-}" ] ||
-  export MBOX
+  if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}" ]
+  then
+    [ -n "${MBOX}" ] ||
+    MBOX="${XDG_DATA_HOME:-$HOME/.local/share}/mbox"
+    [ -n "${DEAD}" ] ||
+    DEAD="${XDG_DATA_HOME:-$HOME/.local/share}/dead.letter"
+  fi
+  if [ -d "${HOME}/.local" ]
+  then
+    [ -n "${MBOX}" ] ||
+    MBOX="${HOME}/.local/mbox"
+    [ -n "${DEAD}" ] ||
+    DEAD="${HOME}/.local/dead.letter"
+  fi
 fi
-
-# Env: DEAD
-if [ -z "${DEAD:-}" ]
-then
-  [ -z "${DEAD:-}" -a \
-    -d "${XDG_DATA_HOME:-$HOME/.local/share}" ] &&
-  DEAD="${XDG_DATA_HOME:-$HOME/.local/share}/dead.letter" || :
-  [ -z "${DEAD:-}" -a \
-    -d "${HOME}/.local" ] &&
-  DEAD="${HOME}/.local/dead.letter" || :
-  [ -z "${DEAD:-}" ] ||
-  export DEAD
-fi
+# Export MBOX and DEAD
+[ -z "${MBOX:-}" ] ||
+export MBOX
+[ -z "${DEAD:-}" ] ||
+export DEAD
 
 # Env: MAIL
 if [ -z "${MAIL:-}" ]
@@ -52,12 +50,13 @@ then
   done 2>/dev/null || :
   [ -d "${mailspooldir:-X}" ] &&
   MAIL="${mailspooldir}/${USER}"
-  [ -z "${MAIL:-}" ] ||
-  export MAIL
   # Cleanup
   unset mailspooldir
 fi
-
+# Export MAIL
+[ -z "${MAIL:-}" ] ||
+export MAIL
+  
 # Env: MAILPATH
 if [ -z "${MAILPATH:-}" ]
 then
@@ -76,6 +75,9 @@ then
     MAILPATH="${MAILPATH} Check file '\$_'."
   fi
 fi
+# Export MAILPATH
+[ -z "${MAILPATH:-}" ] ||
+export MAILPATH
 
 # Env: Email check interval
 if [ -z "${MAILCHECK:}" ]
