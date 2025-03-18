@@ -363,10 +363,12 @@ set bell-style off
 set visible-stats on
 set colored-stats on
 
-# Reqion
+# Region
+$if version >= 8.2
 set enable-active-region on
 set active-region-start-color \e[1;33;44m
 set active-region-end-color \e[0m
+$endif
 
 # History
 set history-size 384

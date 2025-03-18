@@ -21,7 +21,7 @@ return 0
 #  [[ "${PYTHONPATH}" \
 #    =~ ^(.*:)*${path_ent}(:.*)*$ ]] ||
 #  PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}${path_ent}"
-#  unset BASH_REMATCH
+#  [[ "${re:-}" =~ ^Set$ ]] || :
 #done
 #unset path_end
 

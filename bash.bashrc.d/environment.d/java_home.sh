@@ -203,8 +203,8 @@ export -f "java-home-versions" \
 
     export PATH MANPATH
 
-    # Unset BASH_REMATCH.
-    unset BASH_REMATCH
+    # Reset BASH_REMATCH.
+    [[ "${re:-}" =~ ^Set$ ]] || :
 
   } # [ -d "${JAVA_HOME:-X}" ] &&
 

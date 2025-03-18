@@ -80,7 +80,7 @@ fi
 export MAILPATH
 
 # Env: Email check interval
-if [ -z "${MAILCHECK:}" ]
+if [ -z "${MAILCHECK:-}" ]
 then
   MAILCHECK=60
 fi

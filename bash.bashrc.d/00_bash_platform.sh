@@ -38,8 +38,8 @@ vendor=""
       vendor="${ostype}_${vendor}"
     fi
   fi
-  # Unset BASH_REMATCH.
-  unset BASH_REMATCH
+  # Reset BASH_REMATCH.
+  [[ "${re:-}" =~ ^Set$ ]] || :
 
   # Architecture
   case "${osarch:=$(/usr/bin/arch)}" in
