@@ -38,7 +38,7 @@ esac
 ## a command and before the command is executed.
 PS0=''
 ## The primary prompt string. 
-PS1="${CL1)${PSU}${CLE} ${CL2}${PSO}"'\$'"${CLE} "
+PS1="${CL1}${PSU}${CLE} ${CL2}${PSO}"'\$'"${CLE} "
 ## The secondary prompt string.
 PS2="${CL1}${PSU}${CLE} ${CL2}${PSO}>${CLE} "
 ## The prompt for the select command
