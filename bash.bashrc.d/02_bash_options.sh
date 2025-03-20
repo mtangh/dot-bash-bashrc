@@ -18,7 +18,10 @@ shopt -s checkhash
 
 # Bash lists the status of any stopped and running jobs before
 # exiting an interactive shell.
-shopt -s checkjobs
+if ${teatsver} -ge 4.0
+then
+  shopt -s checkjobs
+fi
 
 # Bash checks the window size after each external (non-builtin)
 # command and, if necessary, updates the values of LINES and

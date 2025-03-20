@@ -24,7 +24,7 @@ case "${TERM:-}" in
 xterm*|screen*|tmux*|*-*color)
   [ ${UID:--1} -eq 0 ] &&
   CL1="\[\e[1;31m\]" ||
-  CL1="\[\e[1:34m\]"
+  CL1="\[\e[1;34m\]"
   CL2="${CL1}"
   CL3="\[\e[1;37m\]"
   CL4="\[\e[1;30m\]"

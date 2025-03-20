@@ -53,6 +53,16 @@ fi || :
 # 'bash.bashrc.d' Initialization
 [ -d "${bashbashrc_dir:-X}" ] && {
 
+  # path config
+  [ -x "${bashbashrc_dir}/bin/pathconfig" ] &&
+  pathconf="${bashbashrc_dir}/bin/pathconfig" ||
+  pathconf=":"
+
+  # tests version
+  [ -x "${bashbashrc_dir}/bin/tests-version.sh" ] &&
+  testsver="${bashbashrc_dir}/bin/tests-version.sh" ||
+  testsver=":"
+
   # Treat unset variables as an error when performing parameterr expansion.
   set -Cu
 
@@ -68,8 +78,11 @@ fi || :
   # Reset BASH_REMATCH
   [[ "${re:-}" =~ ^Set$ ]] || :
 
-  # unset 'Cu'
+  # Unset 'Cu'
   set +Cu
+
+  # Unset all variables
+  unset pathconf testsver
 
 } || :
 # [ -d "${bashbashrc_dir:-X}" ]
