@@ -21,10 +21,12 @@ done &>/dev/null || :
 # Fallback: Apply the default settings.
 if [ -z "${dir_colors:-}" -a -n "${BASH_SOURCE:-}" ]
 then
-  color_sz="$(/usr/bin/tty -s && /usr/bin/tput color)" || :
+  /usr/bin/tty -s &&
+  color_sz="$(/usr/bin/tput colors)" &>/dev/null ||
+  color_sz=""
   if [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${TERM}" ]
   then dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${TERM}"
-  elif [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${color_sz:-}color" ]
+  elif [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${color_sz:-X}color" ]
   then dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${color_sz}color"
   else dir_colors="${BASH_SOURCE%/*}/DIR_COLORS"
   fi
