@@ -22,18 +22,18 @@ done &>/dev/null || :
 if [ -z "${dir_colors:-}" -a -n "${BASH_SOURCE:-}" ]
 then
   color_sz="$(/usr/bin/tty -s && /usr/bin/tput color)" || :
-  [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${TERM}" ] &&
-  dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${TERM}" ||
-  [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${color_sz:-}color" ] &&
-  dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${color_sz}color" ||
-  dir_colors="${BASH_SOURCE%/*}/DIR_COLORS" || :
+  if [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${TERM}" ]
+  then dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${TERM}"
+  elif [ -f "${BASH_SOURCE%/*}/DIR_COLORS.${color_sz:-}color" ]
+  then dir_colors="${BASH_SOURCE%/*}/DIR_COLORS.${color_sz}color"
+  else dir_colors="${BASH_SOURCE%/*}/DIR_COLORS"
+  fi
   unset color_sz
-fi &>/dev/null || :
+fi || :
 
 # Color settings are disabled?
-cat "${dir_colors:-X}" 2>/dev/null |
-grep -Ei "^[[:space:]]*COLOR[[:space:]]+no(ne$|$)" &>/dev/null &&
-dir_colors="" || :
+grep -Ei "^[[:space:]]*COLOR[[:space:]]+no(ne$|$)" \
+"${dir_colors:-X}" &>/dev/null && dir_colors="" || :
 
 # Build the DIR_COLORS setting and
 # set it in the LS_COLORS environment variable.
