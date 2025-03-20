@@ -45,7 +45,7 @@ do
   [ -e "${env_path}" -o \
     -d "${env_path}.d" ] &&
   for env_file in \
-  "${env_path}" \
+  "${env_path}"{,.d/*} \
   "${env_path}.d"{"/${ostype:-OS}","/${vendor:-OV}"}/* \
   "${env_path}.d/hosts/${HOSTNAME%%.*}"/*
   do

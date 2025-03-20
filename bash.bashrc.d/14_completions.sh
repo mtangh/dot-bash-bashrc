@@ -20,7 +20,7 @@ for complet_sh in \
 "${usercmpltdir:-X}/completions"/*.sh \
 "${usercmpltdir:-X}/completions/${ostype:-OS}"/*.sh \
 "${usercmpltdir:-X}/completions/${vendor:-OV}"/*.sh \
-"${usercmpltdir:-X}/completions/hosts/${HOSTNANE:-HN}"/*.sh
+"${usercmpltdir:-X}/completions/hosts/${HOSTNAME%%.*}"/*.sh
 do
   [ -f "${complet_sh}" -a -x "${complet_sh}" ] && {
   set +u; . "${complet_sh}"; set -u; }
