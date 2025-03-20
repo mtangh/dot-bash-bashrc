@@ -6,9 +6,6 @@
   bashbashrc_dir=$([ -n "${BASH_SOURCE%/*}" ] &&
   cd "${BASH_SOURCE%/*}"; pwd); } || :
 
-# path config command
-pathconf="${bashbashrc_dir}/bin/pathconfig"
-
 # path config command not found
 [ -x "${pathconf:-}" ] || return 1
 
@@ -37,14 +34,14 @@ build_path_string() {
     do
       if [ -f "${pathfile}" -a -s "${pathfile}" ]
       then
-        pathdirs="${pathdirs:+${pathdirs} }"
+        pathdirs="${pathdirs:-}${pathdirs:+ }"
         [ -x "${pathfile}" ] &&
         pathdirs="${pathdirs}"$(echo "$(/bin/bash ${pathfile})")
         [ -x "${pathfile}" ] ||
         pathdirs="${pathdirs}"$(echo "$(/bin/cat ${pathfile})")
-      fi || :
+      fi
     done
-  done 2>/dev/null || :
+  done || :
   [ -n "${pathdirs}" ] &&
   echo "${pathdirs}" || :
   return $?
@@ -69,7 +66,7 @@ build_path_string() {
   unset paths_file
 
   ## Build pathconfig options
-  paths_dirs="${paths_dirs} $(build_path_string paths)"
+  paths_dirs="${paths_dirs} -a $(build_path_string paths)"
 
   ## for ${HOME}/bin, etc
   for userbindir in \
@@ -83,7 +80,7 @@ build_path_string() {
   unset userbindir
 
   ## Rebuild and Export new PATH
-  PATH="$(${pathconf} PATH -f -a ${paths_dirs})"
+  PATH="$(${pathconf} PATH -f ${paths_dirs})"
   export PATH; unset paths_dirs
 
 } # : "PATH" && {
@@ -92,9 +89,9 @@ build_path_string() {
 : "MANPATH" && {
 
   ## Build pathconfig options
-  paths_dirs="$(build_path_string manpaths)"
+  paths_dirs="-a $(build_path_string manpaths)"
   ## Rebuild and Export new MANPATH
-  MANPATH="$(${pathconf} MANPATH -f -a ${paths_dirs})"
+  MANPATH="$(${pathconf} MANPATH -f ${paths_dirs})"
   export MANPATH; unset paths_dirs
 
 } # : "MANPATH" && {
@@ -103,7 +100,7 @@ build_path_string() {
 : "INFOPATH" && {
 
   ## Build pathconfig options
-  paths_dirs="$(build_path_string infopaths)"
+  paths_dirs="-a $(build_path_string infopaths)"
   ## Rebuild and Export new INFOPATH
   INFOPATH="$(${pathconf} INFOPATH -f -a ${paths_dirs})"
   export INFOPATH; unset paths_dirs
