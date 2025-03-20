@@ -25,7 +25,10 @@ ver_str2num() {
   : && {
     echo "${str}" |
     ( IFS=. read -r maj min rev;
-      printf "%d%03d%04d" ${maj:-0} ${min:-0} ${rev:-0} )
+      expr "${maj:-0}" + 0 &>/dev/null || maj=0
+      expr "${min:-0}" + 0 &>/dev/null || min=0
+      expr "${rev:-0}" + 0 &>/dev/null || rev=0
+      printf "%d%04d" ${maj:-0} ${min:-0} ${rev:-0} )
   } 2>/dev/null
   return $?
 }
@@ -56,7 +59,7 @@ do
     if [ -z "${lver:-}" ]
     then lver="${1:-}"
     elif [ -z "${rver:-}" ]
-    else rver="${1:-}"
+    then rver="${1:-}"
     fi
     ;;
   esac
