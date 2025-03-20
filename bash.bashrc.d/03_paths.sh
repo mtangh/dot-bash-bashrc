@@ -30,11 +30,12 @@ build_path_string() {
     [ -e "${pathbase}" -o \
       -d "${pathbase}.d" ] &&
     for pathfile in \
-    "${pathbase}"{,.d/*} \
+    "${pathbase}" \
+    "${pathbase}.d"/* \
     "${pathbase}.d"/{"${ostype:-OS}","${vendor:-OV}"}/* \
     "${pathbase}.d/hosts/${HOSTNAME%%.*}"/*
     do
-      if [ -f "${pathfile}" ]
+      if [ -f "${pathfile}" -a -s "${pathfile}" ]
       then
         pathdirs="${pathdirs:+${pathdirs} }"
         [ -x "${pathfile}" ] &&
@@ -57,13 +58,13 @@ build_path_string() {
   ## Set default
   for paths_file in $( : && {
     [ "${UID:-0}" = "0" ] &&
-    echo {/usr,/usr/local,}/sbin || :
-    echo {/usr,/usr/local,}/bin
+    echo {,/usr/,/usr/local}/sbin || :
+    echo {,/usr/,/usr/local}/bin
     } 2>/dev/null; )
   do
     [ -d "${paths_file}" ] || continue
-    paths_dirs="${paths_dirs:+${paths_dirs} }"
-    paths_dirs="${paths_dirs}-i${paths_file}"
+    paths_dirs="${paths_dirs:+ }${paths_dirs:-}"
+    paths_dirs="-i${paths_file}${paths_dirs:-}"
   done || :
   unset paths_file
 
