@@ -6,22 +6,18 @@ shopt -q login_shell || return 0
 
 # Load scripts under '*/profile.d' dir.
 for profiledir in \
-  "${bashrclocaldir:-X}"/profile.d \
-  "${bashrc_userdir:-X}"/{,.}profile.d{,"/${HOSTNAME:-HN}"}
+"${bashrclocaldir:-X}"/profile.d \
+"${bashrc_userdir:-X}"/{,.}profile.d/"${ostype:-OS}" \
+"${bashrc_userdir:-X}"/{,.}profile.d/"${vendor:-OV}" \
+"${bashrc_userdir:-X}"/{,.}profile.d/hosts/"${HOSTNAME%%.*}"
 do
-  if [ -d "${profiledir}" ]
-  then
-    set +u
-    for profile_sh in \
-    "${profiledir}"/*.sh{,".${ostype:-OS}",".${vendor:-OV}"}
-    do
-      [ -f "${profile_sh}" -a \
-        -x "${profile_sh}" ] &&
-      . "${profile_sh}" || :
-    done
-    unset profile_sh
-    set -u
-  fi
+  [ -d "${profiledir}" ] &&
+  for profile_sh in "${profiledir}"/*.sh
+  do
+    [ -f "${profile_sh}" -a -x "${profile_sh}" ] && {
+    set +u; . "${profile_sh}"; set -u; }
+  done || :
+  unset profile_sh
 done
 unset profiledir
 

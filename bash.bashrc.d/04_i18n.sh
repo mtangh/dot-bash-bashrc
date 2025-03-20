@@ -11,13 +11,15 @@
 # have been defaulted to English on the console.
 
 for i18nfile in \
-"${bashrc_userdir:-X}"/{,.}i18n{.d/${vendor:-OV},.d/${ostype:-OS},} \
+"${bashrc_userdir:-X}"/{,.}i18n.d/hosts/"${HOSTNAME%%.*}" \
+"${bashrc_userdir:-X}"/{,.}i18n.d/"${vendor:-OV}" \
+"${bashrc_userdir:-X}"/{,.}i18n.d/"${ostype:-OS}" \
+"${bashrc_userdir:-X}"/{,.}i18n \
 "${bashrclocaldir:-X}"/i18n
 do
-  [ -r "${i18nfile}" ] &&
-  . "${i18nfile}" &&
-  break
-done &>/dev/null || :
+  [ -f "${i18nfile}" -a -r "${i18nfile}" ] &&
+  . "${i18nfile}" &>/dev/null && break || :
+done || :
 unset i18nfile
 
 # Fallback

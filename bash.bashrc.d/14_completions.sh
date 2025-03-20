@@ -14,26 +14,18 @@
 usercmpltdir="${BASH_COMPLETION_USER_DIR:-}" ||
 usercmpltdir="${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion"
 
-# completion dierctory
-for completdir in \
-/usr/{,local/}share/bash-completion/completions \
-"${usercmpltdir:-X}"/completions
+# completion scripts
+for complet_sh in \
+/usr/{,local/}share/bash-completion/completions/*.sh \
+"${usercmpltdir:-X}/completions"/*.sh \
+"${usercmpltdir:-X}/completions/${ostype:-OS}"/*.sh \
+"${usercmpltdir:-X}/completions/${vendor:-OV}"/*.sh \
+"${usercmpltdir:-X}/completions/hosts/${HOSTNANE:-HN}"/*.sh
 do
-  if [ -d "${completdir:-}" ]
-  then
-    set +u
-    for complet_sh in \
-    "${completdir}"{,"/${ostype:-OS}","/${vendor:-OV}"}/*.sh
-    do
-      [ -f "${complet_sh}" -a \
-        -x "${complet_sh}" ] &&
-      . "${complet_sh}" || :
-    done
-    unset complet_sh
-    set -u
-  fi
-done 2>/dev/null || :
-unset usercmpltdir completdir
+  [ -f "${complet_sh}" -a -x "${complet_sh}" ] && {
+  set +u; . "${complet_sh}"; set -u; }
+done || :
+unset usercmpltdir complet_sh
 
 # End
 return 0

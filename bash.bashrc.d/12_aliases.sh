@@ -57,23 +57,19 @@ then
 fi
 
 ## load aliases
-for aliases_path in \
-"${bashbashrc_dir}/aliases" \
+for aliases_file in \
 "${bashrclocaldir:-X}/aliases" \
-"${bashrc_userdir:-X}"/{bash_,.bash_,,.}aliases
+"${bashrclocaldir:-X}/aliases.d"/* \
+"${bashrc_userdir:-X}"/{bash_,.bash_,}aliases \
+"${bashrc_userdir:-X}"/{bash_,.bash_,}aliases.d/* \
+"${bashrc_userdir:-X}"/{bash_,.bash_,}aliases.d/"${ostype:-OS}"/* \
+"${bashrc_userdir:-X}"/{bash_,.bash_,}aliases.d/"${vendor:-OV}"/* \
+"${bashrc_userdir:-X}"/{bash_,.bash_,}aliases.d/hosts/"${HOSTNAME%%.*}"/*
 do
-  set +u
-  for aliases_file in \
-  "${aliases_path}"{,.d/*,.d/"${ostype:-OS}"/*,.d/"${vendor:-OV}"/*}
-  do
-    [ -f "${aliases_file}" -a \
-      -r "${aliases_file}" ] &&
-    . "${aliases_file}" || :
-  done
-  unset aliases_file
-  set -u
-done 2>/dev/null || :
-unset aliases_path
+  [ -f "${aliases_file}" -a -r "${aliases_file}" ] && {
+  set +u; . "${aliases_file}"; set -u; }
+done || :
+unset aliases_file
 
 # End
 return 0

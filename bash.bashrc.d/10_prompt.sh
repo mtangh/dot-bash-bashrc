@@ -65,25 +65,21 @@ PROMPT_COMMAND=""
 
 # Lookup PROMPT_COMMAND
 for promptsdir in \
-"${bashrc_userdir:-X}"/{,.}prompt{command,}.d/{$TERM/,} \
-"${bashrclocaldir:-X}"/prompt{command,}.d/{$TERM/,} \
-"${bashbashrc_dir}"/promptcommand.d/{$TERM/,}
+"${bashrc_userdir:-X}"/{,.}prompt{command,}.d/hosts/"${HOSTNAME%%.*}" \
+"${bashrc_userdir:-X}"/{,.}prompt{command,}.d/"${vendor:-OV}" \
+"${bashrc_userdir:-X}"/{,.}prompt{command,}.d/"${ostype:-OS}" \
+"${bashrclocaldir:-X}"/prompt{command,}.d \
+"${bashbashrc_dir}"/promptcommand.d
 do
-  if [ -d "${promptsdir:-}" ]
-  then
-    set +u
-    for prompts_sh in "${promptsdir}"/[0-9][0-9]*.sh
-    do
-      [ -f "${prompts_sh}" -a \
-        -x "${prompts_sh}" ] &&
-      . "${prompts_sh}" &&
-      [ -n "${PROMPT_COMMAND:-}" ] &&
-      break 2 || :
-    done
-    unset prompts_sh
-    set -u
-  fi
-done || :
+  [ -d "${promptsdir:-}" ] &&
+  for prompts_sh in "${promptsdir}"{"/${TERM}",}/[0-9][0-9]*.sh
+  do
+    [ -f "${prompts_sh}" -a -x "${prompts_sh}" ] && {
+    set +u; . "${prompts_sh}"; set -u; }
+    [ -n "${PROMPT_COMMAND:-}" ] && break 2
+  done || :
+  unset prompts_sh
+done
 unset promptsdir
 
 # PROMPT_COMMAND

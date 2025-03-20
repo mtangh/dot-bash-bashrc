@@ -21,25 +21,27 @@ build_path_string() {
   for pathbase in \
   "/etc/${basename}" \
   "${bashbashrc_dir}/pathconfig.d/${basename}" \
-  "${bashrclocaldir:-X}"/pathconfig.d/"${basename}" \
-  "${bashrc_userdir:-X}"/{pathconfig.d/,}"${basename}" \
-  "${HOME}"/.{pathconfig.d/,}"${basename}"
+  "${bashrclocaldir:-X}/pathconfig.d/${basename}" \
+  "${bashrc_userdir:-X}/pathconfig.d/${basename}" \
+  "${bashrc_userdir:-X}/${basename}" \
+  "${HOME}/.pathconfig.d/${basename}" \
+  "${HOME}/.${basename}"
   do
-    [ -e "${pathbase}" -o -d "${pathbase}.d" ] ||
-      continue
+    [ -e "${pathbase}" -o \
+      -d "${pathbase}.d" ] &&
     for pathfile in \
-    "${pathbase}" \
-    "${pathbase}.d"/* \
-    "${pathbase}.d/${ostype:-OS}"/* \
-    "${pathbase}.d/${vendor:-OV}"/* \
-    "${pathbase}.d/hosts/${HOSTNAME:-HN}"/* 
+    "${pathbase}"{,.d/*} \
+    "${pathbase}.d"/{"${ostype:-OS}","${vendor:-OV}"}/* \
+    "${pathbase}.d/hosts/${HOSTNAME%%.*}"/*
     do
-      [ -f "${pathfile}" ] || continue
-      pathdirs="${pathdirs:+${pathdirs} }"
-      if [ -x "${pathfile}" ]
-      then pathdirs="${pathdirs}"$(echo "$(/bin/bash ${pathfile})")
-      else pathdirs="${pathdirs}"$(echo "$(/bin/cat ${pathfile})")
-      fi
+      if [ -f "${pathfile}" ]
+      then
+        pathdirs="${pathdirs:+${pathdirs} }"
+        [ -x "${pathfile}" ] &&
+        pathdirs="${pathdirs}"$(echo "$(/bin/bash ${pathfile})")
+        [ -x "${pathfile}" ] ||
+        pathdirs="${pathdirs}"$(echo "$(/bin/cat ${pathfile})")
+      fi || :
     done
   done 2>/dev/null || :
   [ -n "${pathdirs}" ] &&

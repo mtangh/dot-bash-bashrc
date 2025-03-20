@@ -11,13 +11,12 @@
 
 # Lookup inputrc file in
 for INPUTRC in \
-"${bashrc_userdir:-X}"/{,.}inputrc{.d/"$HOSTNAME",."$HOSTNAME"} \
-"${bashrc_userdir:-X}"/{,.}inputrc{.d/"$vendor",."$vendor"} \
-"${bashrc_userdir:-X}"/{,.}inputrc{.d/"$ostype",."$ostype"} \
+"${bashrc_userdir:-X}"/{,.}inputrc.d/hosts/"${HOSTNAME%%.*}"{".${TERM}",} \
+"${bashrc_userdir:-X}"/{,.}inputrc{.d/,.}"${vendor:-OV}"{".${TERM}",} \
+"${bashrc_userdir:-X}"/{,.}inputrc{.d/,.}"${ostype:-OS}"{".${TERM}",} \
 "${bashrclocaldir:-X}"/inputrc
 do
-  [ -f "${INPUTRC}" -a \
-    -r "${INPUTRC}" ] &&
+  [ -f "${INPUTRC}" -a -r "${INPUTRC}" ] &&
   break || INPUTRC=""
 done
 
