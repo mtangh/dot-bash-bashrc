@@ -3,6 +3,9 @@
 # Skip all for non-interactive shells.
 [[ "$-" = *i* ]] && [ -t 0 ] || return 0
 
+# dircolors
+[ -x "$(type -P dircolors)" ] || return 0
+
 ##
 ## LS_COLORS
 ##
