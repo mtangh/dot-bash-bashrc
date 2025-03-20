@@ -364,7 +364,7 @@ set visible-stats on
 set colored-stats on
 
 # Region
-$if version >= 8.2
+$if version > 7
 set enable-active-region on
 set active-region-start-color \e[1;33;44m
 set active-region-end-color \e[0m

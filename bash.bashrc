@@ -11,13 +11,15 @@
 # the program will exit without doing anything.
 [[ "${BASH_SOURCE[*]}" \
    =~ .*\ (${BASH_SOURCE})(\ .*|\ *)$ ]] && {
-  unset BASH_REMATCH; return 0; } || :
+  [[ "${re:-}" =~ ^Set$ ]] || :
+  return 0; } || :
 # If sourced from the user's bashrc in a login shell,
 # bash.bashrc will exit without doing anything.
 shopt -q login_shell &&
 [[ "${BASH_SOURCE[*]}" \
    =~ /[.]bashrc(\ .*|\ *)$ ]] && {
-  unset BASH_REMATCH; return 0; } || :
+  [[ "${re:-}" =~ ^Set$ ]] || :
+  return 0; } || :
 
 # Prompt setting (default)
 PS1='\u@\h \W\$ '
@@ -63,7 +65,8 @@ fi || :
     . "${bashrcsh}" || :
   done
   unset bashrcsh
-  unset BASH_REMATCH
+  # Reset BASH_REMATCH
+  [[ "${re:-}" =~ ^Set$ ]] || :
 
   # unset 'Cu'
   set +Cu
@@ -73,6 +76,7 @@ fi || :
 
 # Unset all variables
 unset bashbashrcname
-unset bashbashrc_dir bashrclocaldir bashrc_userdir
+unset bashbashrc_dir
+unset bashrclocaldir bashrc_userdir
 
 # EoF

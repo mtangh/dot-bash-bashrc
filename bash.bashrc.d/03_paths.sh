@@ -21,7 +21,8 @@ build_path_string() {
   for pathbase in \
   "/etc/${basename}" \
   "${bashbashrc_dir}/pathconfig.d/${basename}" \
-  {"${bashrclocaldir:-X}","${bashrc_userdir:-X}"}/{pathconfig.d/,}"${basename}" \
+  "${bashrclocaldir:-X}"/pathconfig.d/"${basename}" \
+  "${bashrc_userdir:-X}"/{pathconfig.d/,}"${basename}" \
   "${HOME}"/.{pathconfig.d/,}"${basename}"
   do
     [ -e "${pathbase}" -o -d "${pathbase}.d" ] ||
@@ -30,7 +31,8 @@ build_path_string() {
     "${pathbase}" \
     "${pathbase}.d"/* \
     "${pathbase}.d/${ostype:-OS}"/* \
-    "${pathbase}.d/${vendor:-OV}"/*
+    "${pathbase}.d/${vendor:-OV}"/* \
+    "${pathbase}.d/hosts/${HOSTNAME:-HN}"/* 
     do
       [ -f "${pathfile}" ] || continue
       pathdirs="${pathdirs:+${pathdirs} }"
