@@ -18,7 +18,7 @@ shopt -s checkhash
 
 # Bash lists the status of any stopped and running jobs before
 # exiting an interactive shell.
-if ${teatsver} -ge 4.0
+if ${testsver:-false} -ge 4.0
 then
   shopt -s checkjobs
 fi
