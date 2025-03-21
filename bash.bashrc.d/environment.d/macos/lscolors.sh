@@ -14,7 +14,7 @@ for lscolors in \
 do
   [ -f "${lscolors}" -a -r "${lscolors}" ] &&
   break || lscolors=""
-done &>/dev/null
+done || :
 
 # Fallback: Apply the default settings.
 if [ -z "${lscolors:-}" -a -n "${BASH_SOURCE:-}" ]
@@ -23,7 +23,7 @@ then
   do
     [ -f "${lscolors}" -a -r "${lscolors}" ] &&
     break || lscolors=""
-  done &>/dev/null
+  done || :
 fi
 
 # Set the LSCOLORS environment variable from the lookup file.
@@ -33,7 +33,7 @@ then
 elif [ -f "${lscolors:-X}" ]
 then
   LSCOLORS=$(grep -Ev '^[[:space:]]*#' "${lscolors}" |tr -d '[[:space:]]' )
-fi &>/dev/null
+fi
 unset lscolors
 
 # Export the LSCOLORS environment variable.

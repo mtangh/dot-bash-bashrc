@@ -15,6 +15,7 @@ set -o pipefail
 MODE=""
 PRNT=""
 FRCE=0
+NCHK=0
 TARG=""
 NEWP=""
 BUFF=""
@@ -36,9 +37,11 @@ _remove_trail_slash() {
 _rel2abs_path() {
   local _dir="${1:-}"; shift
   _dir=$(_remove_trail_slash "${_dir}")
-  ( [ -d "${_dir}" -a -d "${_dir:-X}" ] &&
-    cd "${_dir:-X}" &>/dev/null && pwd ||
-    { echo "${_dir}"; exit 22; }; )
+  ( { [ -n "${_dir}" -a -d "${_dir:-X}" ] &&
+      cd "${_dir}" &>/dev/null && pwd; } ||
+    { echo "${_dir:-}";
+      [ ${NCHK:-0} -eq 0 ] &&
+      exit 22 || :; }; )
   return $?
 }
 ## Check exist path string
@@ -216,6 +219,9 @@ do
       ;;
     -f|-force|--force)
       FRCE=$(( ${FRCE:-0} + 1 ))
+      ;;
+    -N|-no-check|--no-check)
+      NCHK=$(( ${NCHK:-0} + 1 ))
       ;;
     -x|-debug|--debug)
       XTRC=$(( ${XTRC:-0} + 1 ))
