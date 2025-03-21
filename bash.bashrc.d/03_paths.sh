@@ -21,6 +21,8 @@ build_path_string() {
   "${bashrclocaldir:-X}/pathconfig.d/${basename}" \
   "${bashrc_userdir:-X}/pathconfig.d/${basename}" \
   "${bashrc_userdir:-X}/${basename}" \
+  "${XDG_CONFIG_HOME:-$HOME/.config}/pathconfig.d/${basename}" \
+  "${XDG_CONFIG_HOME:-$HOME/.config}/${basename}" \
   "${HOME}/.pathconfig.d/${basename}" \
   "${HOME}/.${basename}"
   do
