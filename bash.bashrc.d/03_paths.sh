@@ -82,7 +82,7 @@ build_path_string() {
   unset userbindir
 
   ## Rebuild and Export new PATH
-  PATH="$(${pathconf} PATH -f ${paths_dirs})"
+  PATH="$(${pathconf} TEMP -f ${paths_dirs})"
   export PATH; unset paths_dirs
 
 } # : "PATH" && {
@@ -93,7 +93,7 @@ build_path_string() {
   ## Build pathconfig options
   paths_dirs="-a $(build_path_string manpaths)"
   ## Rebuild and Export new MANPATH
-  MANPATH="$(${pathconf} MANPATH -f ${paths_dirs})"
+  MANPATH="$(${pathconf} TEMP -f ${paths_dirs})"
   export MANPATH; unset paths_dirs
 
 } # : "MANPATH" && {
@@ -104,7 +104,7 @@ build_path_string() {
   ## Build pathconfig options
   paths_dirs="-a $(build_path_string infopaths)"
   ## Rebuild and Export new INFOPATH
-  INFOPATH="$(${pathconf} INFOPATH -f -a ${paths_dirs})"
+  INFOPATH="$(${pathconf} TEMP -f -a ${paths_dirs})"
   export INFOPATH; unset paths_dirs
 
 } # : "INFOPATH" && {
