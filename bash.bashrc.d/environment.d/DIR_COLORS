@@ -121,8 +121,8 @@ MULTIHARDLINK         00                    # regular file with more than one
 FIFO                  33;40                 # pipe
 SOCK                  01;35                 # socket
 DOOR                  01;35	                # door
-BLK                   34;43                 # block device driver
-CHR                   31;43                 # character device driver
+BLK                   01;31                 # block device driver
+CHR                   30;43                 # character device driver
 ORPHAN                01;05;37;41           # symlink to nonexistent file,
                                             # or non-stat'able file
 MISSING               01;37;44              # ... and the files they point to

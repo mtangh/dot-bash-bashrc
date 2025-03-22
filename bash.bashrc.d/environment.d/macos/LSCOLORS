@@ -39,7 +39,7 @@
 # |   |   |   |   |   +-- 6.  block special
 # |   |   |   |   |   |   7.  character special
 # |   |   |   |   |   |   |
-  Ex  gx  fx  dx  cx  ed  bd
+  Ex  gx  fx  dx  cx  Bx  ad
 #
 # +---------------------- 8.  executable with setuid bit set
 # |   +------------------ 9.  executable with setgid bit set
