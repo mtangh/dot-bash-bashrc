@@ -7,6 +7,7 @@ shopt -q login_shell || return 0
 # Load scripts under '*/profile.d' dir.
 for profiledir in \
 "${bashrclocaldir:-X}"/profile.d \
+"${bashrc_userdir:-X}"/{,.}profile.d \
 "${bashrc_userdir:-X}"/{,.}profile.d/"${ostype:-OS}" \
 "${bashrc_userdir:-X}"/{,.}profile.d/"${vendor:-OV}" \
 "${bashrc_userdir:-X}"/{,.}profile.d/hosts/"${HOSTNAME%%.*}"
