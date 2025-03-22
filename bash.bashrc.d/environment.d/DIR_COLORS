@@ -119,8 +119,8 @@ LINK                  01;36                 # symbolic link (If you set this to
 MULTIHARDLINK         00                    # regular file with more than one
                                             # link
 FIFO                  33;40                 # pipe
-SOCK                  01;33                 # socket
-DOOR                  01;33	                # door
+SOCK                  01;35                 # socket
+DOOR                  01;35	                # door
 BLK                   34;43                 # block device driver
 CHR                   31;43                 # character device driver
 ORPHAN                01;05;37;41           # symlink to nonexistent file,
