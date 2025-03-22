@@ -390,7 +390,7 @@ set mark-directories on
 set mark-symlinked-directories on
 
 ##
-# key bindings
+# Key Bindings
 ##
 
 # COMMANDS FOR MOVING
@@ -452,15 +452,15 @@ set mark-symlinked-directories on
 #
 "\C-b":     backward-char
 "\M-[D":    backward-char       # [LEFT-ALLOW] (ANSI mode) *
-"\M-OD":    backward-char       # [LEFT-ALLOW] (Keypad mode)
-"\M-\C-[D": backward-char       # [LEFT-ALLOW] (8bit ANSI mode)
-"\M-\C-OD": backward-char       # [LEFT-ALLOW] (8bit Keypad mode)
+#"\M-OD":    backward-char       # [LEFT-ALLOW] (Keypad mode)
+#"\M-\C-[D": backward-char       # [LEFT-ALLOW] (8bit ANSI mode)
+#"\M-\C-OD": backward-char       # [LEFT-ALLOW] (8bit Keypad mode)
 "\M-b":     backward-word
 "\C-f":     forward-char
 "\M-[C":    forward-char        # [RIGHT-ALLOW] (ANSI mode) *
-"\M-OC":    forward-char        # [RIGHT-ALLOW] (Keypad mode)
-"\M-\C-[C": forward-char        # [RIGHT-ALLOW] (8bit ANSI mode)
-"\M-\C-OC": forward-char        # [RIGHT-ALLOW] (8bit Keypad mode)
+#"\M-OC":    forward-char        # [RIGHT-ALLOW] (Keypad mode)
+#"\M-\C-[C": forward-char        # [RIGHT-ALLOW] (8bit ANSI mode)
+#"\M-\C-OC": forward-char        # [RIGHT-ALLOW] (8bit Keypad mode)
 "\M-f":     forward-word
 "\C-a":     beginning-of-line
 "\C-e":     end-of-line
@@ -593,14 +593,14 @@ set mark-symlinked-directories on
 ## history
 "\C-p":     previous-history
 "\M-[A":    previous-history    # [UP-ARROW] (ANSI mode) *
-"\M-\C-[A": previous-history    # [UP-ARROW] (8bit ANSI mode)
-"\M-OA":    previous-history    # [UP-ARROW] (Keypad mode) *
-"\M-\C-OA": previous-history    # [UP-ARROW] (8bit Keypad mode)
+#"\M-\C-[A": previous-history    # [UP-ARROW] (8bit ANSI mode)
+#"\M-OA":    previous-history    # [UP-ARROW] (Keypad mode) *
+#"\M-\C-OA": previous-history    # [UP-ARROW] (8bit Keypad mode)
 "\C-n":     next-history
 "\M-[B":    next-history        # [DOWN-ARROW] (ANSI mode) *
-"\M-\C-[B": next-history        # [DOWN-ARROW] (8bit ANSI mode)
-"\M-OB":    next-history        # [DOWN-ARROW] (Keypad mode) *
-"\M-\C-OB": next-history        # [DOWN-ARROW] (8bit Keypad mode)
+#"\M-\C-[B": next-history        # [DOWN-ARROW] (8bit ANSI mode)
+#"\M-OB":    next-history        # [DOWN-ARROW] (Keypad mode) *
+#"\M-\C-OB": next-history        # [DOWN-ARROW] (8bit Keypad mode)
 "\C-s":     forward-search-history
 "\C-r":     reverse-search-history
 "\C-x\C-e": edit-and-execute-command
@@ -674,22 +674,22 @@ set mark-symlinked-directories on
 #   the character before point with a space.  By default, this command
 #   is unbound.
 #
-## Delete
+### Delete
 DEL:        delete-char
 "\C-d":     delete-char
 "\C-?":     delete-char
 "\M-[3~":   delete-char         # [DEL]
-## Backspace
+### Backspace
 "\C-h":     backward-delete-char
-## TAB Insert
+### TAB Insert
 "\M-TAB":   tab-insert
-## Quoted Insert
+### Quoted Insert
 "\C-q":     self-insert
 "\M-q":     quoted-insert
-## Upper/Lower
+### Upper/Lower
 "\M-u":     upcase-word
 "\M-l":     downcase-word
-"\M-c":     capitalize-word
+#"\M-c":     capitalize-word
 
 # KILLING AND YANKING
 #
@@ -1043,7 +1043,7 @@ TAB:        complete
 # display-shell-version (C-x C-v)
 #   Display version information about the current instance of bash.
 #
-ESC:        prefix-meta
+#ESC:        prefix-meta
 "\C-g":     abort
 "\M-r":     revert-line
 "\C-_":     undo
