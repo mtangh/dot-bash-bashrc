@@ -119,19 +119,19 @@ LINK                  01;36                 # symbolic link (If you set this to
 MULTIHARDLINK         00                    # regular file with more than one
                                             # link
 FIFO                  33;40                 # pipe
-SOCK                  01;35                 # socket
-DOOR                  01;35	                # door
-BLK                   01;33;40             # block device driver
-CHR                   01;33;40              # character device driver
+SOCK                  01;33                 # socket
+DOOR                  01;33	                # door
+BLK                   34;43                 # block device driver
+CHR                   31;43                 # character device driver
 ORPHAN                01;05;37;41           # symlink to nonexistent file,
                                             # or non-stat'able file
-MISSING               01;05;37;41           # ... and the files they point to
-SETUID                37;41                 # file that is setuid (u+s)
-SETGID                30;43                 # file that is setgid (g+s)
+MISSING               01;37;44              # ... and the files they point to
+SETUID                01;32;41              # file that is setuid (u+s)
+SETGID                01;32;45              # file that is setgid (g+s)
 CAPABILITY            30;41                 # file with capability
-STICKY_OTHER_WRITABLE 30;42                 # dir that is sticky
+STICKY_OTHER_WRITABLE 34;41                 # dir that is sticky
                                             # and other-writable (+t,o+w)
-OTHER_WRITABLE        34;42                 # dir that is other-writable (o+w)
+OTHER_WRITABLE        34;45                 # dir that is other-writable (o+w)
                                             # and not sticky
 STICKY                37;44                 # dir with the sticky bit set (+t)
                                             # and not other-writable

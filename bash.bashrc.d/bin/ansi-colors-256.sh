@@ -11,32 +11,86 @@ set -Cu
 # exit with a non-zero status.
 set -o pipefail
 # ANSI 256 Colors
-echo "ANSI 256 Colors" &&
-echo &&
-for fgbg in FG BG
-do
-  case "${fgbg}" in
-  FG) prfx="38;5" ;;
-  BG) prfx="48;5" ;;
-  esac
-  for mode in 0 1
+: "Title" && {
+  echo
+  echo "$(printf "\e[1;4m%s\e[0m" "ANSI 256 Colors")"
+  echo
+} # Title
+echo "$(printf "\e[1m%s\e[0m" "Basic Colors (8x2)" )" && {
+  csta=0
+  cend=16
+  colm=8
+  blnk="$(( ( 72 / ${colm} ) - 3 ))"
+  printf "%-8s" ""
+  for (( coln=0; coln<${colm}; coln++ ))
   do
-    case "${mode}" in
-    0) font="None" ;;
-    1) font="Bold" ;;
-    esac
-    printf "\e[1m%s(%s) - %s\e[0m" "${fgbg}" "ESC[${prfx}:" "${font}"; echo
-    for (( xclr=0; xclr<256; xclr++ ))
+    printf "+%02d%-${blnk}s" "${coln}" ""
+  done
+  echo
+  for (( rown=0; rown<${cend}; rown+=${colm} ))
+  do
+    printf "%03d-%03d " "${rown}" $(( ${rown} + ${colm} - 1 ))
+    for (( coln=0; coln<${colm}; coln++ ))
     do
-      modn=$(( ${xclr}-((${xclr}/16)*16) ))
-      [ "${modn}" = "0" ] &&
-      printf "%03d-%03d: " "${xclr}" $(( ${xclr} + 15 )) || :
-      printf "\e[%d;${prfx};%dm%03d\e[000m " "${mode}" "${xclr}" "${xclr}"
-      [ "${modn}" = "15" ] &&
-      echo || :
+      bclr=$(( ${rown} + ${coln} ))
+      fclr=$(( ${rown} + ${colm} - ${bclr} - 1 ))
+      printf "\e[38;5;%d;48;5;%dm%03d%-${blnk}s\e[0m" "${fclr}" "${bclr}" "${bclr}" ""
     done
     echo
   done
-done
+  echo
+} # Basic Color
+echo "$(printf "\e[1m%s\e[0m" "Enhanced 8-bit Color (6x6x6)")" && {
+  csta=16
+  cend=232
+  colm=6
+  blnk="$(( ( 72 / ${colm} ) - 3 ))"
+  for (( step=${csta}; step<${cend}; step+=$(( $colm * $colm )) ))
+  do
+    printf "%-8s" ""
+    for (( coln=0; coln<${colm}; coln++ ))
+    do
+      printf "+%02d%-${blnk}s" "${coln}" ""
+    done
+    echo
+    for (( rown=${step}; rown<$(( ${step} + ( $colm * $colm - 1 ) )); rown+=${colm} ))
+    do
+      printf "%03d-%03d " "${rown}" $(( ${rown} + ${colm} - 1 ))
+      for (( coln=0; coln<${colm}; coln++ ))
+      do
+        bclr=$(( ${rown} + ${coln} ))
+        fclr=$(( ${cend} - ( ${bclr} - ${csta} ) - 1 ))
+        printf "\e[38;5;%d;48;5;%dm%03d%-${blnk}s\e[0m" "${fclr}" "${bclr}" "${bclr}" ""
+      done
+      echo
+    done
+  done
+  echo
+} # Enhanced 8-bit Color
+echo "$(printf "\e[1m%s\e[0m" "Gray-Scale")" && {
+  csta=232
+  cend=256
+  colm=6
+  blnk="$(( ( 72 / ${colm} ) - 3 ))"
+  printf "%-8s" ""
+  for (( coln=0; coln<${colm}; coln++ ))
+  do
+    printf "+%02d%-${blnk}s" "${coln}" ""
+  done
+  echo
+  for (( rown=${csta}; rown<${cend}; rown+=${colm} ))
+  do
+    printf "%03d-%03d " "${rown}" $(( ${rown} + ${colm} - 1 ))
+    fclr=$([ ${rown} -eq ${csta} ] && echo $(( ${cend} - 1 )) || echo ${csta};)
+    for (( coln=0; coln<${colm}; coln++ ))
+    do
+      bclr=$(( ${rown} + ${coln} ))
+      printf "\e[38;5;%d;48;5;%dm%03d%-${blnk}s\e[0m" "${fclr}" "${bclr}" "${bclr}" ""
+    done
+    echo
+  done
+  echo
+} # Gray-Scale
+echo
 # End
 exit 0

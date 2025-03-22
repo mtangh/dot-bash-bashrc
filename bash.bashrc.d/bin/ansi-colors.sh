@@ -11,23 +11,54 @@ set -Cu
 # exit with a non-zero status.
 set -o pipefail
 # ANSI Colors
-echo "ANSI Colors"
-echo
-printf "%5s:" "FG/BG"
-for clfg in {30..37} 39 {90..97}
-do
-  printf " \e[0;%dm%03d\e[0m" "${clfg}" "${clfg}"
-done
-echo
-for clbg in {40..47} 49 {100..107}
-do
-  printf "%2s\e[0;%dm%03d\e[0m:" "" "${clbg}" "${clbg}"
-  for clfg in {30..37} 39 {90..97}
-  do
-    printf " \e[0;%d;%dm%03d\e[0m" "${clfg}" "${clbg}" "${clfg}"
-  done
+: "Title" && {
   echo
-done
+  echo "$(printf "\e[1;4m%s\e[0m" "ANSI Colors")"
+  echo
+} # Title
+echo "$(printf "\e[1m%s\e[0m" "Default / Default (3n;4n)")" && {
+  for clbg in {40..47}
+  do
+    for clfg in {30..37}
+    do
+      printf "\e[0;%d;%dm%03d;%03d%-3s\e[0m" "${clfg}" "${clbg}" "${clfg}" "${clbg}" ""
+    done
+    echo
+  done
+}
+echo
+echo "$(printf "\e[1m%s\e[0m" "High-brightness / Default (9n;4n)")" && {
+  for clbg in {40..47}
+  do
+    for clfg in {90..97}
+    do
+      printf "\e[0;%d;%dm%03d;%03d%-3s\e[0m" "${clfg}" "${clbg}" "${clfg}" "${clbg}" ""
+    done
+    echo
+  done
+}
+echo
+echo "$(printf "\e[1m%s\e[0m" "Default / High-brightness (3n;10n)")" && {
+  for clbg in {100..107}
+  do
+    for clfg in {30..37}
+    do
+      printf "\e[0;%d;%dm%03d;%03d%-3s\e[0m" "${clfg}" "${clbg}" "${clfg}" "${clbg}" ""
+    done
+    echo
+  done
+}
+echo
+echo "$(printf "\e[1m%s\e[0m" "High-brightness / High-brightness (9n;10n)")" && {
+  for clbg in {100..107}
+  do
+    for clfg in {90..97}
+    do
+      printf "\e[0;%d;%dm%03d;%03d%-3s\e[0m" "${clfg}" "${clbg}" "${clfg}" "${clbg}" ""
+    done
+    echo
+  done
+}
 echo
 # End
 exit 0

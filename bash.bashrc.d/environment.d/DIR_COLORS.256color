@@ -91,134 +91,134 @@ LINK                  38;5;51               # symbolic link (If you set this to
                                             # file pointed to.)
 MULTIHARDLINK         38;5;15;44            # regular file with more than one
                                             # link
-FIFO                  38;5;11;40            # pipe
-SOCK                  38;5;13               # socket
-DOOR                  38;5;5                # door
-BLK                   38;5;11;48;5;232      # block device driver
-CHR                   38;5;3;48;5;232       # character device driver
-ORPHAN                38;5;9;48;5;232       # symlink to nonexistent file,
+FIFO                  38;5;3;40             # pipe
+SOCK                  38;5;11               # socket
+DOOR                  38;5;11               # door
+BLK                   38;5;39;48;5;226      # block device driver
+CHR                   38;5;196;48;5;226     # character device driver
+ORPHAN                01;05;38;5;7;48;5;196 # symlink to nonexistent file,
                                             # or non-stat'able file
-MISSING               05;38;5;15;48;5;232   # ... and the files they point to
-SETUID                38;5;15;48;5;196      # file that is setuid (u+s)
-SETGID                38;5;16;48;5;11       # file that is setgid (g+s)
+MISSING               01;38;5;7;48;5;196    # ... and the files they point to
+SETUID                38;5;37;48;5;196      # file that is setuid (u+s)
+SETGID                38;5;37;48;5;207      # file that is setgid (g+s)
 CAPABILITY            38;5;226;48;5;196     # file with capability
-STICKY_OTHER_WRITABLE 38;5;16;48;5;10       # dir that is sticky
+STICKY_OTHER_WRITABLE 38;5;27;48;5;196      # dir that is sticky
                                             # and other-writable (+t,o+w)
-OTHER_WRITABLE        38;5;21;48;5;10       # dir that is other-writable (o+w)
+OTHER_WRITABLE        38;5;27;48;5;207      # dir that is other-writable (o+w)
                                             # and not sticky
-STICKY                38;5;15;48;5;21       # dir with the sticky bit set (+t)
+STICKY                38;5;15;48;5;27       # dir with the sticky bit set (+t)
                                             # and not other-writable
 
 ## This is for files with execute permission:
-EXEC    38;5;34
+EXEC    38;5;37
 
 # List any file extensions like '.gz' or '.tar' that you would like ls
 # to colorize below. Put the extension, a space, and the color init string.
 # (and any comments you want to add after a '#')
 
 ## executables (bright green)
-.cmd    38;5;34
-.exe    38;5;34
-.com    38;5;34
-.btm    38;5;34
-.bat    38;5;34
-.sh     38;5;34
-.bash   38;5;34
-.csh    38;5;34
-.zsh    38;5;34
+.cmd    38;5;43
+.exe    38;5;43
+.com    38;5;43
+.btm    38;5;43
+.bat    38;5;43
+.sh     38;5;43
+.bash   38;5;43
+.csh    38;5;43
+.zsh    38;5;43
 ## archives or compressed (bright red)
-.tar    38;5;9
-.tgz    38;5;9
-.arc    38;5;9
-.arj    38;5;9
-.taz    38;5;9
-.lha    38;5;9
-.lz4    38;5;9
-.lzh    38;5;9
-.lzma   38;5;9
-.tlz    38;5;9
-.txz    38;5;9
-.tzo    38;5;9
-.t7z    38;5;9
-.zip    38;5;9
-.z      38;5;9
-.Z      38;5;9
-.dz     38;5;9
-.gz     38;5;9
-.lrz    38;5;9
-.lz     38;5;9
-.lzo    38;5;9
-.xz     38;5;9
-.bz2    38;5;9
-.bz     38;5;9
-.tbz    38;5;9
-.tbz2   38;5;9
-.tz     38;5;9
-.deb    38;5;9
-.rpm    38;5;9
-.jar    38;5;9
-.war    38;5;9
-.ear    38;5;9
-.sar    38;5;9
-.rar    38;5;9
-.alz    38;5;9
-.ace    38;5;9
-.zoo    38;5;9
-.cpio   38;5;9
-.7z     38;5;9
-.rz     38;5;9
-.cab    38;5;9
+.tar    38;5;202
+.tgz    38;5;202
+.arc    38;5;202
+.arj    38;5;202
+.taz    38;5;202
+.lha    38;5;202
+.lz4    38;5;202
+.lzh    38;5;202
+.lzma   38;5;202
+.tlz    38;5;202
+.txz    38;5;202
+.tzo    38;5;202
+.t7z    38;5;202
+.zip    38;5;202
+.z      38;5;202
+.Z      38;5;202
+.dz     38;5;202
+.gz     38;5;202
+.lrz    38;5;202
+.lz     38;5;202
+.lzo    38;5;202
+.xz     38;5;202
+.bz2    38;5;202
+.bz     38;5;202
+.tbz    38;5;202
+.tbz2   38;5;202
+.tz     38;5;202
+.deb    38;5;202
+.rpm    38;5;202
+.jar    38;5;202
+.war    38;5;202
+.ear    38;5;202
+.sar    38;5;202
+.rar    38;5;202
+.alz    38;5;202
+.ace    38;5;202
+.zoo    38;5;202
+.cpio   38;5;202
+.7z     38;5;202
+.rz     38;5;202
+.cab    38;5;202
 ## image formats (magenta)
-.jpg    38;5;13
-.jpeg   38;5;13
-.gif    38;5;13
-.bmp    38;5;13
-.pbm    38;5;13
-.pgm    38;5;13
-.ppm    38;5;13
-.tga    38;5;13
-.xbm    38;5;13
-.xpm    38;5;13
-.tif    38;5;13
-.tiff   38;5;13
-.png    38;5;13
-.svg    38;5;13
-.svgz   38;5;13
-.mng    38;5;13
-.pcx    38;5;13
-.mov    38;5;13
-.mpg    38;5;13
-.mpeg   38;5;13
-.m2v    38;5;13
-.mkv    38;5;13
-.webm   38;5;13
-.ogm    38;5;13
-.mp4    38;5;13
-.m4v    38;5;13
-.mp4v   38;5;13
-.vob    38;5;13
-.qt     38;5;13
-.nuv    38;5;13
-.wmv    38;5;13
-.asf    38;5;13
-.rm     38;5;13
-.rmvb   38;5;13
-.flc    38;5;13
-.avi    38;5;13
-.fli    38;5;13
-.flv    38;5;13
-.gl     38;5;13
-.dl     38;5;13
-.xcf    38;5;13
-.xwd    38;5;13
-.yuv    38;5;13
-.cgm    38;5;13
-.emf    38;5;13
+.jpg    38;5;207
+.jpeg   38;5;207
+.gif    38;5;207
+.bmp    38;5;207
+.pbm    38;5;207
+.pgm    38;5;207
+.ppm    38;5;207
+.tga    38;5;207
+.xbm    38;5;207
+.xpm    38;5;207
+.tif    38;5;207
+.tiff   38;5;207
+.png    38;5;207
+.svg    38;5;207
+.svgz   38;5;207
+.mng    38;5;207
+.pcx    38;5;207
+.mov    38;5;207
+.mpg    38;5;207
+.mpeg   38;5;207
+.m2v    38;5;207
+.mkv    38;5;207
+.webm   38;5;207
+.ogm    38;5;207
+.mp4    38;5;207
+.m4v    38;5;207
+.mp4v   38;5;207
+.vob    38;5;207
+.qt     38;5;207
+.nuv    38;5;207
+.wmv    38;5;207
+.asf    38;5;207
+.rm     38;5;207
+.rmvb   38;5;207
+.flc    38;5;207
+.avi    38;5;207
+.fli    38;5;207
+.flv    38;5;207
+.gl     38;5;207
+.dl     38;5;207
+.xcf    38;5;207
+.xwd    38;5;207
+.yuv    38;5;207
+.cgm    38;5;207
+.emf    38;5;207
 ### http://wiki.xiph.org/index.php/MIME_Types_and_File_Extensions
-.axv    38;5;13
-.anx    38;5;13
-.ogv    38;5;13
-.ogx    38;5;13
+.axv    38;5;207
+.anx    38;5;207
+.ogv    38;5;207
+.ogx    38;5;207
 ## audio formats (cyan)
 .aac    38;5;45
 .au     38;5;45
@@ -237,30 +237,30 @@ EXEC    38;5;34
 .spx    38;5;45
 .xspf   38;5;45
 ## colorize binary documents (brown)
-#.pdf    00;33
-#.ps     00;33
-#.ps.gz  00;33
-#.tex    00;33
-#.xls    00;33
-#.xlsx   00;33
-#.ppt    00;33
-#.pptx   00;33
-#.rtf    00;33
-#.doc    00;33
-#.docx   00;33
-#.odt    00;33
-#.ods    00;33
-#.odp    00;33
-#.epub   00;33
-#.abw    00;33
-#.wpd    00;33
+#.pdf    38;5;173
+#.ps     38;5;173
+#.ps.gz  38;5;173
+#.tex    38;5;173
+#.xls    38;5;173
+#.xlsx   38;5;173
+#.ppt    38;5;173
+#.pptx   38;5;173
+#.rtf    38;5;173
+#.doc    38;5;173
+#.docx   38;5;173
+#.odt    38;5;173
+#.ods    38;5;173
+#.odp    38;5;173
+#.epub   38;5;173
+#.abw    38;5;173
+#.wpd    38;5;173
 ## colorize text documents (brown)
-#.txt    00;33
-#.patch  00;33
-#.diff   00;33
-#.log    00;33
-#.htm    00;33
-#.html   00;33
-#.shtml  00;33
-#.xml    00;33
+#.txt    38;5;173
+#.patch  38;5;173
+#.diff   38;5;173
+#.log    38;5;173
+#.htm    38;5;173
+#.html   38;5;173
+#.shtml  38;5;173
+#.xml    38;5;173
 
