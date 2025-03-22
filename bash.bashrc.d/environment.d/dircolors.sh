@@ -56,7 +56,7 @@ then
   LS_COLORS=""
   LS_COLORS="${LS_COLORS:-}no=00:fi=00:rs=0:di=01;34:ln=01;36:"
   LS_COLORS="${LS_COLORS:-}so=01;33:do=01;33:pi=33;40:"
-  LS_COLORS="${LS_COLORS:-}bd=34;43:cd=31:43:"
+  LS_COLORS="${LS_COLORS:-}bd=34;43:cd=31;43:"
   LS_COLORS="${LS_COLORS:-}ex=32:mi=01;37;41:or=01;05;37;41:"
   LS_COLORS="${LS_COLORS:-}su=01;32;41:sg=01;32;45:"
   LS_COLORS="${LS_COLORS:-}tw=34;41:ow=34;45:st=37;44:"
