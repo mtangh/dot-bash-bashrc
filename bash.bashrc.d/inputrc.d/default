@@ -689,7 +689,7 @@ DEL:        delete-char
 ### Upper/Lower
 "\M-u":     upcase-word
 "\M-l":     downcase-word
-#"\M-c":     capitalize-word
+"\M-c":     capitalize-word
 
 # KILLING AND YANKING
 #
@@ -902,10 +902,10 @@ TAB:        complete
 "\M-{":     complete-into-braces
 "\M-~":     complete-username
 "\M-$":     complete-variable
-#"\C-x/":    possible-filename-completions
-#"\C-x@":    possible-hostname-completions
-#"\C-x~":    possible-username-completions
-#"\C-x$":    possible-variable-completions
+"\C-x/":    possible-filename-completions
+"\C-x@":    possible-hostname-completions
+"\C-x~":    possible-username-completions
+"\C-x$":    possible-variable-completions
 
 # KEYBOARD MACROS
 #
@@ -1049,9 +1049,12 @@ TAB:        complete
 "\C-_":     undo
 "\C-x\C-u": undo
 "\C-@":     set-mark
-"\C-x\C-x": self-insert
 "\C-x\C-@": exchange-point-and-mark
 "\C-x\C-r": re-read-init-file
+"\C-x\C-v": display-shell-version
+"\C-x\C-f": dump-functions
+"\C-x\C-x": dump-variables
+"\C-x\C-m": dump-macros
 $if mode=vi
 "\C-e":     emacs-editing-mode
 $endif
