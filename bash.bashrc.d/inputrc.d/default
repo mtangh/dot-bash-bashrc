@@ -365,9 +365,11 @@ set colored-stats on
 
 # Region
 $if version > 7
+$if version > 8.1
 set enable-active-region on
 set active-region-start-color \e[1;33;44m
 set active-region-end-color \e[0m
+$endif
 $endif
 
 # History
