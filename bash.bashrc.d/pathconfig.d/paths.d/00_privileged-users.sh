@@ -1,5 +1,5 @@
 if [ "$(id -u)" = "0" ] ||
-   [[ "$(id -Gn)" =~ (^|\ +)(wheel|admin)(\ +|$) ]]
+   [[ "$(id -Gn)" =~ (^|\ +)(wheel|adm|admin)(\ +|$) ]]
 then
 cat - <<'_EOF_'
 -a /opt/local/sbin
